@@ -13,6 +13,7 @@
 	<includePath>lib/include</includePath>
 	<header>include/runtime_function.h</header>
 	<header>include/runtime_ptr.h</header>
+	<header>include/runtime_app.h</header>
 
 	<platform config="debug">
   		<dynamicLibrary cinder="true">lib/libcinder_dynamic_d.dylib</dynamicLibrary>
@@ -25,5 +26,4 @@
 	<staticLibrary absolute="true">-lncurses</staticLibrary>
 
 </block>
-
 </cinder>

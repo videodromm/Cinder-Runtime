@@ -4,7 +4,7 @@ Cinder-Runtime
 
 ####Introduction
 
-This block explores what is currently possible to do using Cling, Llvm and Clang. The main code of this block is the ```runtime_ptr``` template. The class wraps a ```shared_ptr``` and pretty much works the same way at the exception that the wrapped class will be reloaded at runtime each time the source file is saved. This can be used to prototype code without having to wait between each compilation. It comes with its own limitations and is certainly not as complete as similar projects but clearly less invasive and much easier to use.
+This block explores what is currently possible to do using Cling, Llvm and Clang. **This is highly experimental and is just a temporary solution while waiting for something more official.** The main code of this block is the ```runtime_ptr``` template. The class wraps a ```shared_ptr``` and pretty much works the same way at the exception that the wrapped class will be reloaded at runtime each time the source file is saved. This can be used to prototype code without having to wait between each compilation. It comes with its own limitations and is certainly not as complete as similar projects but clearly less invasive and much easier to use. There's also a ```runtime_function``` that mimics the ```std::function``` class and a ```CINDER_RUNTIME_APP``` macro to replace the usual ```CINDER_APP``` and have your whole app being re-compiled at runtime. 
 
 *Make sure to read the ["How it works"](#how-it-works) section to understand what you can and can't do.*
 
@@ -12,7 +12,7 @@ This block explores what is currently possible to do using Cling, Llvm and Clang
 The block only supports [OSX](#osx-build-instructions) at the moment but PRs are most welcome.
 
 
-####Usage
+####```runtime_ptr```
 
 ###### Setup, Options, libraries and include paths
 
@@ -103,6 +103,36 @@ void Object::load( cereal::BinaryInputArchive &ar )
 	ar( mValue0, mValue1, mValue2 );
 }
 ````
+
+####```CINDER_RUNTIME_APP```
+A ```runtime_app``` works pretty much the same as a ```runtime_ptr```; just include the ```runtime_app.h``` header, replace the usual ```CINDER_APP``` by ```CINDER_RUNTIME_APP``` and you should be good to go. The same downsides apply so make sure to read the rest.
+```c++
+#include "cinder/app/App.h"
+#include "cinder/app/RendererGl.h"
+#include "cinder/gl/gl.h"
+
+// uncomment this to disable runtime compilation
+// #define DISABLE_RUNTIME_COMPILED_APP
+#include "runtime_app.h"
+
+using namespace ci;
+using namespace ci::app;
+using namespace std;
+
+class RuntimeApp : public App {
+  public:
+	void setup() override;
+	void update() override;
+	void draw() override;
+};
+
+void RuntimeApp::setup() {}
+void RuntimeApp::update() {}
+void RuntimeApp::draw() { gl::clear( Color( 0, 0, 0 ) ); }
+
+// this is the only thing to change to your app
+CINDER_RUNTIME_APP( RuntimeApp, RendererGl )
+```
 
 ####How it works
 
