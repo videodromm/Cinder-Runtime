@@ -16,10 +16,10 @@
 		00B784B60FF439BC000DE1D7 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B20FF439BC000DE1D7 /* CoreAudio.framework */; };
 		00B9955A1B128DF400A5C623 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B995581B128DF400A5C623 /* IOKit.framework */; };
 		00B9955B1B128DF400A5C623 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B995591B128DF400A5C623 /* IOSurface.framework */; };
+		0A8D7D4AD9BB44018567FD6C /* RuntimeCerealApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 067F0BA0C96C4AC2BBBDFC80 /* RuntimeCerealApp.cpp */; };
+		2BD1E78FB8524ACF9008A1F3 /* CinderApp.icns in Resources */ = {isa = PBXBuildFile; fileRef = B284656FE4A14036B6DDC48F /* CinderApp.icns */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		8F9E28E9E021411682AB627E /* CinderApp.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2E1201F3569E433DBDEA703B /* CinderApp.icns */; };
-		F18DE13EFECD4F538F76D9D6 /* RuntimeApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A40A1BCD54E344B3A6809EF7 /* RuntimeApp.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,19 +32,19 @@
 		00B784B20FF439BC000DE1D7 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		00B995581B128DF400A5C623 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		00B995591B128DF400A5C623 /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOSurface.framework; path = System/Library/Frameworks/IOSurface.framework; sourceTree = SDKROOT; };
+		067F0BA0C96C4AC2BBBDFC80 /* RuntimeCerealApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = RuntimeCerealApp.cpp; path = ../src/RuntimeCerealApp.cpp; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		17E24A9265B646FCAA8B46AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		19DDB0A2E48B49268E2E7589 /* RuntimeApp_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = RuntimeApp_Prefix.pch; sourceTree = "<group>"; };
+		24B04F8C1AED4AE68E1651CA /* RuntimeCerealApp_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = RuntimeCerealApp_Prefix.pch; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		2E1201F3569E433DBDEA703B /* CinderApp.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = CinderApp.icns; path = ../resources/CinderApp.icns; sourceTree = "<group>"; };
-		460AF172E22C486F8099BA33 /* runtime_function.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = runtime_function.h; path = ../../../include/runtime_function.h; sourceTree = "<group>"; };
-		4B296E581C73D0BE0018249C /* runtime_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = runtime_app.h; path = ../../../include/runtime_app.h; sourceTree = "<group>"; };
 		5323E6B10EAFCA74003A9687 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
-		79EFD4FC68464069BB641C51 /* runtime_ptr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = runtime_ptr.h; path = ../../../include/runtime_ptr.h; sourceTree = "<group>"; };
-		8D1107320486CEB800E47090 /* RuntimeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RuntimeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		A40A1BCD54E344B3A6809EF7 /* RuntimeApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = RuntimeApp.cpp; path = ../src/RuntimeApp.cpp; sourceTree = "<group>"; };
-		FE57129D412F478BAD0034B5 /* Resources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Resources.h; path = ../include/Resources.h; sourceTree = "<group>"; };
+		648D1FBA3722452095426738 /* runtime_function.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = runtime_function.h; path = ../../../include/runtime_function.h; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* RuntimeCerealApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RuntimeCerealApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9FE1A8422318485581C619FD /* runtime_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = runtime_app.h; path = ../../../include/runtime_app.h; sourceTree = "<group>"; };
+		B284656FE4A14036B6DDC48F /* CinderApp.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = CinderApp.icns; path = ../resources/CinderApp.icns; sourceTree = "<group>"; };
+		B3E2410502DA45569D6059AE /* runtime_ptr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = runtime_ptr.h; path = ../../../include/runtime_ptr.h; sourceTree = "<group>"; };
+		B6207A2BE74E4557B6841D0B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F56ACD471C3D43E9A634154C /* Resources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Resources.h; path = ../include/Resources.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,7 +72,7 @@
 		01B97315FEAEA392516A2CEA /* Blocks */ = {
 			isa = PBXGroup;
 			children = (
-				551BA13C26754F6C8C68FA10 /* Cinder-Runtime */,
+				5883AA107C894F75B856097E /* Cinder-Runtime */,
 			);
 			name = Blocks;
 			sourceTree = "<group>";
@@ -80,7 +80,7 @@
 		080E96DDFE201D6D7F000001 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				A40A1BCD54E344B3A6809EF7 /* RuntimeApp.cpp */,
+				067F0BA0C96C4AC2BBBDFC80 /* RuntimeCerealApp.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -115,12 +115,12 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D1107320486CEB800E47090 /* RuntimeApp.app */,
+				8D1107320486CEB800E47090 /* RuntimeCerealApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		29B97314FDCFA39411CA2CEA /* RuntimeApp */ = {
+		29B97314FDCFA39411CA2CEA /* RuntimeCerealApp */ = {
 			isa = PBXGroup;
 			children = (
 				01B97315FEAEA392516A2CEA /* Blocks */,
@@ -130,14 +130,14 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
-			name = RuntimeApp;
+			name = RuntimeCerealApp;
 			sourceTree = "<group>";
 		};
 		29B97315FDCFA39411CA2CEA /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				FE57129D412F478BAD0034B5 /* Resources.h */,
-				19DDB0A2E48B49268E2E7589 /* RuntimeApp_Prefix.pch */,
+				F56ACD471C3D43E9A634154C /* Resources.h */,
+				24B04F8C1AED4AE68E1651CA /* RuntimeCerealApp_Prefix.pch */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -145,8 +145,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				2E1201F3569E433DBDEA703B /* CinderApp.icns */,
-				17E24A9265B646FCAA8B46AE /* Info.plist */,
+				B284656FE4A14036B6DDC48F /* CinderApp.icns */,
+				B6207A2BE74E4557B6841D0B /* Info.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -160,20 +160,20 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		551BA13C26754F6C8C68FA10 /* Cinder-Runtime */ = {
+		5883AA107C894F75B856097E /* Cinder-Runtime */ = {
 			isa = PBXGroup;
 			children = (
-				78D559032DEE4B51BE0C391F /* include */,
+				F8394FEBF8174C1083D6603F /* include */,
 			);
 			name = "Cinder-Runtime";
 			sourceTree = "<group>";
 		};
-		78D559032DEE4B51BE0C391F /* include */ = {
+		F8394FEBF8174C1083D6603F /* include */ = {
 			isa = PBXGroup;
 			children = (
-				4B296E581C73D0BE0018249C /* runtime_app.h */,
-				460AF172E22C486F8099BA33 /* runtime_function.h */,
-				79EFD4FC68464069BB641C51 /* runtime_ptr.h */,
+				648D1FBA3722452095426738 /* runtime_function.h */,
+				B3E2410502DA45569D6059AE /* runtime_ptr.h */,
+				9FE1A8422318485581C619FD /* runtime_app.h */,
 			);
 			name = include;
 			sourceTree = "<group>";
@@ -181,9 +181,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8D1107260486CEB800E47090 /* RuntimeApp */ = {
+		8D1107260486CEB800E47090 /* RuntimeCerealApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "RuntimeApp" */;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "RuntimeCerealApp" */;
 			buildPhases = (
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
@@ -193,10 +193,10 @@
 			);
 			dependencies = (
 			);
-			name = RuntimeApp;
+			name = RuntimeCerealApp;
 			productInstallPath = "$(HOME)/Applications";
-			productName = RuntimeApp;
-			productReference = 8D1107320486CEB800E47090 /* RuntimeApp.app */;
+			productName = RuntimeCerealApp;
+			productReference = 8D1107320486CEB800E47090 /* RuntimeCerealApp.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -206,7 +206,7 @@
 			isa = PBXProject;
 			attributes = {
 			};
-			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "RuntimeApp" */;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "RuntimeCerealApp" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -216,11 +216,11 @@
 				French,
 				German,
 			);
-			mainGroup = 29B97314FDCFA39411CA2CEA /* RuntimeApp */;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* RuntimeCerealApp */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D1107260486CEB800E47090 /* RuntimeApp */,
+				8D1107260486CEB800E47090 /* RuntimeCerealApp */,
 			);
 		};
 /* End PBXProject section */
@@ -230,7 +230,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8F9E28E9E021411682AB627E /* CinderApp.icns in Resources */,
+				2BD1E78FB8524ACF9008A1F3 /* CinderApp.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,7 +241,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F18DE13EFECD4F538F76D9D6 /* RuntimeApp.cpp in Sources */,
+				0A8D7D4AD9BB44018567FD6C /* RuntimeCerealApp.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,7 +258,7 @@
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = RuntimeApp_Prefix.pch;
+				GCC_PREFIX_HEADER = RuntimeCerealApp_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -272,7 +272,7 @@
 					../../../../../lib/libcinder_dynamic_d.dylib,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libcinder.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = RuntimeApp;
+				PRODUCT_NAME = RuntimeCerealApp;
 				SYMROOT = ./build;
 				WRAPPER_EXTENSION = app;
 			};
@@ -289,7 +289,7 @@
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = RuntimeApp_Prefix.pch;
+				GCC_PREFIX_HEADER = RuntimeCerealApp_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"NDEBUG=1",
 					"$(inherited)",
@@ -303,7 +303,7 @@
 					../../../../../lib/libcinder_dynamic.dylib,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libcinder.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = RuntimeApp;
+				PRODUCT_NAME = RuntimeCerealApp;
 				STRIP_INSTALLED_PRODUCT = YES;
 				SYMROOT = ./build;
 				WRAPPER_EXTENSION = app;
@@ -318,9 +318,13 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++11";
 				CLANG_CXX_LIBRARY = "libc++";
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\"";
+				HEADER_SEARCH_PATHS = (
+					"\"$(CINDER_PATH)/include\"",
+					"\"../include\"",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -335,9 +339,13 @@
 				CINDER_PATH = ../../../../..;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++11";
 				CLANG_CXX_LIBRARY = "libc++";
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\"";
+				HEADER_SEARCH_PATHS = (
+					"\"$(CINDER_PATH)/include\"",
+					"\"../include\"",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include ../../../include ../../../lib/include";
@@ -347,7 +355,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "RuntimeApp" */ = {
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "RuntimeCerealApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4B08A954540054247B /* Debug */,
@@ -356,7 +364,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "RuntimeApp" */ = {
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "RuntimeCerealApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,

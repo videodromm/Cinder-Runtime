@@ -25,6 +25,11 @@
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
 
+#ifdef RUNTIME_APP_CEREALIZATION
+#include <utility>
+#include <cereal/archives/binary.hpp>
+#endif
+
 #ifndef DISABLE_RUNTIME_COMPILED_APP
 
 #include "cinder/Exception.h"
@@ -175,6 +180,10 @@ public:
 	//! Returns the default Renderer which will be used when creating a new Window. Set by the app instantiation macro automatically.
 	ci::app::RendererRef	getDefaultRenderer() const;
 	
+#ifdef RUNTIME_APP_CEREALIZATION
+	virtual void save( cereal::BinaryOutputArchive &ar ) {}
+	virtual void load( cereal::BinaryInputArchive &ar ) {}
+#endif
 	
 	runtime_app* mParent;
 };
@@ -227,7 +236,8 @@ public:
 	
 	//! Override to cleanup any resources before app destruction
 	virtual void	cleanup() { if( mRuntimeImpl ) mRuntimeImpl->cleanup(); }
-	
+
+protected:	
 	std::shared_ptr<RuntimeAppWrapper> mRuntimeImpl;
 };
 
@@ -427,9 +437,9 @@ void runtime_app::main( const ci::app::RendererRef &defaultRenderer, const char 
 {
 	// init interpreter
 	// initialize cling interpreter
-	const char * args[] = { "-std=c++11" };
+	const char * args[] = { "-std=c++11", "-Wno-inconsistent-missing-override" };
 	auto blockPath = ci::fs::path( __FILE__ ).parent_path().parent_path();
-	auto interpreter = new cling::Interpreter( 1, args, ( blockPath.string() + "/lib/" ).c_str() );
+	auto interpreter = new cling::Interpreter( 2, args, ( blockPath.string() + "/lib/" ).c_str() );
 	
 	// add the parent path to the include paths
 	auto path = ci::fs::path( file );
@@ -529,9 +539,21 @@ void runtime_app::main( const ci::app::RendererRef &defaultRenderer, const char 
 		interpreter->declare( code );
 		interpreter->enableRawInput( false );
 		
+#ifdef RUNTIME_APP_CEREALIZATION
+		bool cerealized = false;
+		std::stringstream archiveStream;
+#endif
+		
 		// if the instance already exists override it
 		std::string instanceName = "runtime_App";
 		if( interpreter->getAddressOfGlobal( instanceName ) ) {
+#ifdef RUNTIME_APP_CEREALIZATION
+			cereal::BinaryOutputArchive outputArchive( archiveStream );
+			if( runtimeApp->mRuntimeImpl ) {
+				runtimeApp->mRuntimeImpl->save( outputArchive );
+				cerealized = true;
+			}
+#endif
 			interpreter->process( instanceName + " = std::make_shared<" + uniqueName + ">();" );
 		}
 		// otherwise create it
@@ -546,6 +568,12 @@ void runtime_app::main( const ci::app::RendererRef &defaultRenderer, const char 
 				runtimeApp->mRuntimeImpl = newImpl;
 				runtimeApp->mRuntimeImpl->mParent = runtimeApp;
 				runtimeApp->setup();
+#ifdef RUNTIME_APP_CEREALIZATION
+				if( cerealized ) {
+					cereal::BinaryInputArchive inputArchive( archiveStream );
+					runtimeApp->mRuntimeImpl->load( inputArchive );
+				}
+#endif
 			}
 		}
 	} );
