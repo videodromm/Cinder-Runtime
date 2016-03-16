@@ -29,24 +29,25 @@ void RuntimeAppSettingsApp::setup()
 	
 	for( int i = 0; i < getWindowSize().x; i += 20 ) {
 		for( int j = 0; j < getWindowSize().y; j += 20 ) {
-			mCircles.push_back( { vec2( 10 ) + vec2( i, j ), Simplex::noise( vec2( i, j ) * 0.1f ) * 0.5f + 0.5f } );
+			mCircles.push_back( { vec2( 10 ) + vec2( i, j ), 10.0f } );
 		}
 	}
 }
 
 void RuntimeAppSettingsApp::draw()
 {
-	gl::clear( Color( 1, 0, 0 ) );
+	gl::clear( Color( 0, 0, 0 ) );
 	
 	ui::ScopedWindow window( "RuntimeApp" );
 	ui::Text( "Hello!" );
+	ui::Value( "Fps", (int) getAverageFps() );
 	
 	for( auto &circle : mCircles ) {
-		gl::drawSolidCircle( circle.position, circle.size * 10.0f );
+		gl::drawSolidCircle( circle.position, circle.size * ( Simplex::noise( vec3( circle.position * 0.1f, getElapsedSeconds() * 0.75f ) ) * 0.5f + 0.5f ), 64 );
 	}
 }
 
-CINDER_RUNTIME_APP( RuntimeAppSettingsApp, RendererGl, App::SettingsFn()
+CINDER_RUNTIME_APP( RuntimeAppSettingsApp, RendererGl( RendererGl::Options().msaa(8) ), App::SettingsFn()
 #ifndef DISABLE_RUNTIME_COMPILED_APP
 	// The interpreter needs to know about the blocks we are using
    ,[] ( cling::Interpreter *interpreter ) {
