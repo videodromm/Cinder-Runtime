@@ -35,6 +35,7 @@
 #include "cinder/Exception.h"
 #include "cinder/Filesystem.h"
 #include "cinder/System.h"
+#include "cinder/Utilities.h"
 #include "cling/Interpreter/Interpreter.h"
 #include "Watchdog.h"
 
@@ -188,7 +189,6 @@ public:
 	runtime_app* mParent;
 };
 
-
 class runtime_app : public ci::app::App {
 public:
 	runtime_app(){}
@@ -197,7 +197,7 @@ public:
 	//! \cond
 	// Called during application instanciation via CINDER_APP_MAC macro
 	template<typename AppT>
-	static void main( const ci::app::RendererRef &defaultRenderer, const char *title, int argc, char * const argv[], const std::string &file, const SettingsFn &settingsFn = SettingsFn() );
+	static void main( const ci::app::RendererRef &defaultRenderer, const char *title, int argc, char * const argv[], const std::string &file, const SettingsFn &settingsFn = SettingsFn(), const std::function<void(cling::Interpreter *)> &runtimeSettingsFn = std::function<void(cling::Interpreter *)>() );
 	//! \endcond
 	
 	//! Override to perform any application setup after the Renderer has been initialized.
@@ -422,6 +422,7 @@ void RuntimeAppWrapper::dispatchAsync( const std::function<void()> &fn )
 	mParent->dispatchAsync( fn );
 }
 
+
 template<typename T>
 typename std::result_of<T()>::type RuntimeAppWrapper::dispatchSync( T fn )
 {
@@ -433,7 +434,7 @@ ci::app::RendererRef RuntimeAppWrapper::getDefaultRenderer() const
 }
 
 template<typename AppT>
-void runtime_app::main( const ci::app::RendererRef &defaultRenderer, const char *title, int argc, char * const argv[], const std::string &file, const SettingsFn &settingsFn )
+void runtime_app::main( const ci::app::RendererRef &defaultRenderer, const char *title, int argc, char * const argv[], const std::string &file, const SettingsFn &settingsFn, const std::function<void(cling::Interpreter *)> &runtimeSettingsFn )
 {
 	// init interpreter
 	// initialize cling interpreter
@@ -452,19 +453,26 @@ void runtime_app::main( const ci::app::RendererRef &defaultRenderer, const char 
 	interpreter->AddIncludePath( blockPath.parent_path().parent_path().string() + "/include/" );
 	interpreter->loadFile( blockPath.parent_path().parent_path().string() + "/lib/libcinder_dynamic.dylib" );
 	
-	// compile the original class
+	// add other interpreter options
+	if( runtimeSettingsFn ) {
+		runtimeSettingsFn( interpreter );
+	}
 	
+	// compile the original class
 	// copy the file content to a string
 	std::string originalCode;
 	std::ifstream infile( path.c_str() );
 	std::string line;
+	std::vector<std::string> includes;
 	while( std::getline( infile, line ) ) {
 		if( line.find( "CINDER_RUNTIME_APP" ) != std::string::npos ) {
 			break;
 		}
 		//if( line.find( "#include \"runtime_app.h\"" ) == std::string::npos ) {
+		if( line.find( "#include" ) == std::string::npos ) {
 			originalCode += line + " \n";
-		//}
+		}
+		else includes.push_back( line );
 	}
 	
 	// make the App inherit from AppBase instead of App
@@ -474,13 +482,21 @@ void runtime_app::main( const ci::app::RendererRef &defaultRenderer, const char 
 		originalCode.replace( pos, std::string( "public App" ).length(), wrapperApp );
 		pos += wrapperApp.length();
 	}
+	// prepend the includes
+	std::string includesString;
+	for( auto inc : includes ) {
+		includesString += inc + "\n";
+	}
+	
+	// wrap original code in its own namespace
+	originalCode = includesString + "\n\nnamespace RuntimeBase {\n" + originalCode + "\n};";
+	//std::cout << "Original Code " << std::endl << originalCode << std::endl << std::endl;
 	
 	// process the original code once
 	interpreter->enableRawInput();
 	interpreter->declare( originalCode );
 	interpreter->enableRawInput( false );
 	interpreter->declare( "#include <memory>" );
-	//std::cout << "Original Code " << std::endl << originalCode << std::endl << std::endl;
 	
 	// start the app
 	ci::app::AppBase::prepareLaunch();
@@ -506,32 +522,37 @@ void runtime_app::main( const ci::app::RendererRef &defaultRenderer, const char 
 		
 		std::ifstream infile( p.c_str() );
 		std::string line;
+		std::vector<std::string> includes;
 		while( std::getline( infile, line ) ) {
 			if( line.find( "CINDER_RUNTIME_APP" ) != std::string::npos ) {
 				break;
 			}
-			//if( line.find( "#include \"runtime_app.h\"" ) == std::string::npos ) {
+			if( line.find( "#include" ) == std::string::npos ) {
 				code += line + " \n";
-			//}
+			}
+			else includes.push_back( line );
 		}
 		
-		// Compile Class with a unique name and re-instanciate it
-		// replace each occurence of the class name by a new unique name
-		std::string uniqueName;
-		interpreter->createUniqueName( uniqueName );
-		uniqueName = className + uniqueName;
-		size_t pos = 0;
-		while( (pos = code.find(className, pos)) != std::string::npos ) {
-			code.replace(pos, className.length(), uniqueName);
-			pos += uniqueName.length();
+		// prepend the includes
+		std::string includesString;
+		for( auto inc : includes ) {
+			includesString += inc + "\n";
 		}
 		
-		// Make the unique class inherit from the original one
-		pos = code.find( "class " + uniqueName + " : public App" );
+		// make a unique namespace name
+		std::string uniqueNamespace;
+		interpreter->createUniqueName( uniqueNamespace );
+		uniqueNamespace = className + uniqueNamespace;
+		
+		// wrap the code in its own unique namespace
+		code = includesString + "\n\nnamespace " + uniqueNamespace + " {\n" + code + "\n};";
+		
+		// Make the class inherit from the original one
+		std::string classLineToken = "class " + className + " : public App";
+		size_t pos = code.find( classLineToken );
 		if( pos != std::string::npos ) {
-			code.replace( pos, ( "class " + uniqueName + " : public App" ).length(), "class " + uniqueName + " : public " + className + " " );
+			code.replace( pos, classLineToken.length(), "class " + className + " : public RuntimeBase::" + className + " " );
 		}
-		
 		//std::cout << code << std::endl;
 		
 		// process the new code
@@ -546,6 +567,8 @@ void runtime_app::main( const ci::app::RendererRef &defaultRenderer, const char 
 		
 		// if the instance already exists override it
 		std::string instanceName = "runtime_App";
+		std::string scopedClassName = "RuntimeBase::" + className;
+		std::string scopedRuntimeClassName = uniqueNamespace + "::" + className;
 		if( interpreter->getAddressOfGlobal( instanceName ) ) {
 #ifdef RUNTIME_APP_CEREALIZATION
 			cereal::BinaryOutputArchive outputArchive( archiveStream );
@@ -554,11 +577,11 @@ void runtime_app::main( const ci::app::RendererRef &defaultRenderer, const char 
 				cerealized = true;
 			}
 #endif
-			interpreter->process( instanceName + " = std::make_shared<" + uniqueName + ">();" );
+			interpreter->process( instanceName + " = std::make_shared<" + scopedRuntimeClassName + ">();" );
 		}
 		// otherwise create it
 		else {
-			interpreter->process( "std::shared_ptr<" + className + "> " + instanceName + " = std::make_shared<" + uniqueName + ">();" );
+			interpreter->process( "std::shared_ptr<" + scopedClassName + "> " + instanceName + " = std::make_shared<" + scopedRuntimeClassName + ">();" );
 		}
 		
 		// grab the new address and update the runtime_ptr instance
