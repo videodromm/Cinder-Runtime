@@ -54,11 +54,6 @@ if( mPtr ) {
 }
 ```
 
-###### Class scope restrictions
-
-You're free to include or use any preprocessors in any of the files but you can't define anything outside of the class. Stick to the class scope and you should be good to go.
-
-
 ###### Virtual methods
 
 Any method that is used outside of the class files at compile time and that you want to be able to modify at runtime **needs** to be virtual for the whole hack to work. That also means that you can't change this function signature between two compilation.
@@ -139,24 +134,23 @@ CINDER_RUNTIME_APP( RuntimeApp, RendererGl )
 To allow to use the fast REPL of Cling, no symbols are unloaded in the interpreter and the code doesn't touch the main app symbols. Instead ```runtime_ptr``` uses a pretty ugly hack based around polymorphism. The ```shared_ptr``` itself will be of the type of the class compiled when building the app, but the actual content will be of a temporary type inheriting from your class. As the REPL system of Cling is made to append code to existing code instead of reloading it, what ```runtime_ptr``` does behind the scene would more or less look like this :
 
 ```c++
-class Object {};
-std::shared_ptr<Object> instance = std::make_shared<Object>();
-class Object__cling_Un1Qu34 : public Object {};
-instance = std::make_shared<Object__cling_Un1Qu34>();
-class Object__cling_Un1Qu35 : public Object {};
-instance = std::make_shared<Object__cling_Un1Qu35>();
-class Object__cling_Un1Qu36 : public Object {};
-instance = std::make_shared<Object__cling_Un1Qu36>();
-class Object__cling_Un1Qu37 : public Object {};
-instance = std::make_shared<Object__cling_Un1Qu37>();
-class Object__cling_Un1Qu38 : public Object {};
-instance = std::make_shared<Object__cling_Un1Qu38>();
-class Object__cling_Un1Qu39 : public Object {};
-instance = std::make_shared<Object__cling_Un1Qu39>();
+namespace RuntimeBase { class Object {}; }
+std::shared_ptr<RuntimeBase::Object> instance = std::make_shared<RuntimeBase::Object>();
+// file saved
+namespace Runtime_Object_cling_Un1Qu34 { class Object : public Object {}; }
+instance = std::make_shared<Runtime_Object_cling_Un1Qu34::Object>();
+// file saved
+namespace Runtime_Object_cling_Un1Qu35 { class Object : public Object {}; }
+instance = std::make_shared<Runtime_Object_cling_Un1Qu35::Object>();
+// file saved
+namespace Runtime_Object_cling_Un1Qu36 { class Object : public Object {}; }
+instance = std::make_shared<Runtime_Object_cling_Un1Qu36::Object>();
+// file saved
+namespace Runtime_Object_cling_Un1Qu37 { class Object : public Object {}; }
+instance = std::make_shared<Runtime_Object_cling_Un1Qu37::Object>();
 ```
 
-Kind of ugly but it does allow fast reloading of your class while keeping an extremly simple API. Unfortunately it obviously comes with a few downsides explained above. Most of it is currently implemented with a simple string replacement algorithm which explains the scope limitations.
-
+Kind of ugly but it does allow fast reloading of your class while keeping an extremly simple API. Unfortunately it obviously comes with a few downsides explained above.
 
 ####OSX Build Instructions
 
@@ -173,10 +167,47 @@ Start by running the ```install.sh``` to grab and build Cling, Llvm and Clang. T
 - Build Phases / Add IOKit, IOSurface, Accelerate, CoreAudio, CoreMedia and AVFoundation frameworks
 - Build ```cinder_dynamic.dylib``` and ```cinder_dynyamic_d.dylib```
 
-###### Create new projects with Tinderbox
-The block works only in "relative mode" so don't try to copy it!
+###### Potential errors about ```unistd.h``` or ```XcodeDefault.xctoolchain```
+If you run into that kind of errors you might want to try to update your command line dev. tools by running a ```xcode-select —install``` in terminal. If that doesn't work, try to update xcode. Once you have that solved you can remove the folders created by the install script and restart it.
+
+
+####OSX New Project Guide
+**The block works only in "relative mode" so don't try to copy it!**
 
 When creating a new project, you should go to your build settings and remove "libcinder.a"/"libcinder_d.a" from your "Other Linker Flags".
 
-###### Potential errors about ```unistd.h``` or ```XcodeDefault.xctoolchain```
-If you run into that kind of errors you might want to try to update your command line dev. tools by running a ```xcode-select —install``` in terminal. If that doesn't work, try to update xcode. Once you have that solved you can remove the folders created by the install script and restart it.
+Tinderbox should create everything for you but here's a few extra steps to setup things in a nice and unobtrusive way.
+
+- Start Tinderbox, name your project and add "Cinder-Runtime" as a relative block :  
+  
+![step1](docs/images/DualTarget02.jpg)  
+
+- Open the xcode project and duplicate the main target :  
+  
+![step2](docs/images/DualTarget03.jpg)  
+  
+- Rename both the new target and the new scheme :  
+  
+![step3](docs/images/DualTarget04.jpg)  
+  
+- Go in the "Runtime target" and remove cinder's static library from the linkers settings (do that for both release and debug mode) :  
+  
+![step4](docs/images/DualTarget05.jpg)
+![step5](docs/images/DualTarget06.jpg)  
+  
+- Go to the same place in the main target and do the opposite, remove all 3 flags related to Cinder-Runtime and Cling:  
+  
+![step6](docs/images/DualTarget07.jpg)  
+
+- The main target linker settings should now look as usual without any trace of this block :  
+  
+![step7](docs/images/DualTarget08.jpg)  
+  
+- Scroll down to the Preprocessors Macros and add ```DISABLE_RUNTIME_COMPILED_APP``` and ```DISABLE_RUNTIME_COMPILED_PTR``` macros:  
+  
+![step8](docs/images/DualTarget09.jpg)  
+  
+- You can now switch between a live-compiled and a perfectly clean version of your app. No need to add anything else to the code, the preprocessor will take care of removing anything related to Cinder-Runtime. Have a look at this [sample](samples/DualTarget) if you'd like to try.  
+  
+![step9](docs/images/DualTarget10.jpg)  
+  
