@@ -10,6 +10,8 @@
 #define RUNTIME_APP_CEREALIZATION
 #include "runtime_app.h"
 
+#include <cereal/archives/binary.hpp>
+
 using namespace ci;
 using namespace ci::app;
 using namespace std;
@@ -19,8 +21,8 @@ public:
 	void setup() override;
 	void draw() override;
 	
-	void save( cereal::BinaryOutputArchive &ar );
-	void load( cereal::BinaryInputArchive &ar );
+	virtual void save( cereal::BinaryOutputArchive &ar );
+	virtual void load( cereal::BinaryInputArchive &ar );
 	
 	gl::BatchRef	mPlane, mTeapot;
 	CameraPersp		mCamera;

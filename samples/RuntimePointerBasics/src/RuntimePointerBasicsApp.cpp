@@ -2,8 +2,8 @@
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
 #include "cinder/CameraUi.h"
-#include "runtime_ptr.h"
 
+#include "runtime_ptr.h"
 #include "Object.h"
 
 using namespace ci;
