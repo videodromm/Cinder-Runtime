@@ -221,13 +221,18 @@ std::shared_ptr<cling::Interpreter> runtime_class<T>::initialize( const ci::fs::
 		
 		// copy the file content to a string
 		std::string originalCode;
+		std::vector<std::string> includes;
 		
 		// if it's a header just copy it like this
 		if( !isCpp ) {
 			std::ifstream infile( headerPath.c_str() );
 			std::string line;
 			while( std::getline( infile, line ) ) {
-				originalCode += line + " \n";
+				//originalCode += line + " \n";
+				if( line.find( "#include" ) == std::string::npos ) {
+					originalCode += line + " \n";
+				}
+				else includes.push_back( line );
 			}
 		}
 		// otherwise remove the include in the cpp file and prepend the header before the implementation
@@ -235,16 +240,33 @@ std::shared_ptr<cling::Interpreter> runtime_class<T>::initialize( const ci::fs::
 			std::string line;
 			std::ifstream headerFile( headerPath.c_str() );
 			while( std::getline( headerFile, line ) ) {
-				originalCode += line + " \n";
+				//originalCode += line + " \n";
+				if( line.find( "#include" ) == std::string::npos ) {
+					originalCode += line + " \n";
+				}
+				else includes.push_back( line );
 			}
 			std::ifstream implFile( implPath.c_str() );
 			while( std::getline( implFile, line ) ) {
 				// skip the header include
 				if( !( line.find( "#include" ) != std::string::npos && line.find( headerPath.filename().string() ) != std::string::npos ) ) {
-					originalCode += line + " \n";
+					//originalCode += line + " \n";
+					if( line.find( "#include" ) == std::string::npos ) {
+						originalCode += line + " \n";
+					}
+					else includes.push_back( line );
 				}
 			}
 		}
+		
+		// prepend the includes
+		std::string includesString;
+		for( auto inc : includes ) {
+			includesString += inc + "\n";
+		}
+		
+		// wrap original code in its own namespace
+		originalCode = includesString + "\n\nnamespace RuntimeBase {\n" + originalCode + "\n};";
 		
 		// process the original code once
 		getInterpreter()->enableRawInput();
@@ -257,13 +279,18 @@ std::shared_ptr<cling::Interpreter> runtime_class<T>::initialize( const ci::fs::
 		wd::watch( absolutePath, [className,isCpp]( const ci::fs::path &p ) {
 			// copy the file content to a string
 			std::string code;
+			std::vector<std::string> includes;
 			
 			// if it's a header just copy it like this
 			if( !isCpp ) {
 				std::ifstream infile( p.c_str() );
 				std::string line;
 				while( std::getline( infile, line ) ) {
-					code += line + " \n";
+					//code += line + " \n";
+					if( line.find( "#include" ) == std::string::npos ) {
+						code += line + " \n";
+					}
+					else includes.push_back( line );
 				}
 			}
 			// otherwise remove the include in the cpp file and prepend the header before the implementation
@@ -275,37 +302,48 @@ std::shared_ptr<cling::Interpreter> runtime_class<T>::initialize( const ci::fs::
 				std::string line;
 				std::ifstream headerFile( header.c_str() );
 				while( std::getline( headerFile, line ) ) {
-					code += line + " \n";
+					//code += line + " \n";
+					if( line.find( "#include" ) == std::string::npos ) {
+						code += line + " \n";
+					}
+					else includes.push_back( line );
 				}
 				std::ifstream implFile( impl.c_str() );
 				while( std::getline( implFile, line ) ) {
 					// skip the header include
 					if( !( line.find( "#include" ) != std::string::npos && line.find( header.filename().string() ) != std::string::npos ) ) {
-						code += line + " \n";
+						//code += line + " \n";
+						if( line.find( "#include" ) == std::string::npos ) {
+							code += line + " \n";
+						}
+						else includes.push_back( line );
 					}
 				}
 			}
 			
-			// Compile Class with a unique name and re-instanciate it
-			// replace each occurence of the class name by a new unique name
-			std::string uniqueName;
-			getInterpreter()->createUniqueName( uniqueName );
-			uniqueName = className + uniqueName;
-			size_t pos = 0;
-			while( (pos = code.find(className, pos)) != std::string::npos ) {
-				code.replace(pos, className.length(), uniqueName);
-				pos += uniqueName.length();
+			// prepend the includes
+			std::string includesString;
+			for( auto inc : includes ) {
+				includesString += inc + "\n";
 			}
 			
-			// Make the unique class inherit from the original one
-			pos = code.find( "class " + uniqueName + " { " );
+			// make a unique namespace name
+			std::string uniqueNamespace;
+			getInterpreter()->createUniqueName( uniqueNamespace );
+			uniqueNamespace = className + uniqueNamespace;
+			
+			// wrap the code in its own unique namespace
+			code = includesString + "\n\nnamespace " + uniqueNamespace + " {\n" + code + "\n};";
+			
+			// Make the class inherit from the original one
+			size_t pos = code.find( "class " + className + " { " );
 			if( pos != std::string::npos ) {
-				code.replace( pos, ( "class " + uniqueName + " { " ).length(), "class " + uniqueName + " : public " + className + " { " );
+				code.replace( pos, ( "class " + className + " { " ).length(), "class " + className + " : public RuntimeBase::" + className + " { " );
 			}
 			else {
-				pos = code.find( "class " + uniqueName + " : " );
+				pos = code.find( "class " + className + " : " );
 				if( pos != std::string::npos ) {
-					code.replace( pos, ( "class " + uniqueName + " : " ).length(), "class " + uniqueName + " : public " + className + ", " );
+					code.replace( pos, ( "class " + className + " : " ).length(), "class " + className + " : public RuntimeBase::" + className + ", " );
 				}
 			}
 			
@@ -324,17 +362,19 @@ std::shared_ptr<cling::Interpreter> runtime_class<T>::initialize( const ci::fs::
 #endif
 
 				// if the instance already exists override it
+				std::string scopedClassName = "RuntimeBase::" + className;
+				std::string scopedRuntimeClassName = uniqueNamespace + "::" + className;
 				if( getInterpreter()->getAddressOfGlobal( instanceName ) ) {
 #ifdef RUNTIME_PTR_CEREALIZATION
 					cereal::BinaryOutputArchive outputArchive( archiveStream );
 					instance.first->mCerealizer.save( instance.first->get(), outputArchive );
 					cerealized = true;
 #endif
-					getInterpreter()->process( instanceName + " = std::make_shared<" + uniqueName + ">();" );
+					getInterpreter()->process( instanceName + " = std::make_shared<" + scopedRuntimeClassName + ">();" );
 				}
 				// otherwise create it
 				else {
-					getInterpreter()->process( "std::shared_ptr<" + className + "> " + instanceName + " = std::make_shared<" + uniqueName + ">();" );
+					getInterpreter()->process( "std::shared_ptr<" + scopedClassName + "> " + instanceName + " = std::make_shared<" + scopedRuntimeClassName + ">();" );
 				}
 				
 				// grab the new address and update the runtime_ptr instance
