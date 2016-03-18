@@ -273,7 +273,7 @@ ci::app::WindowRef RuntimeAppWrapper::getWindow() const
 }
 ci::app::WindowRef RuntimeAppWrapper::getWindowIndex( size_t index ) const
 {
-	return getWindowIndex( index );
+	return mParent->getWindowIndex( index );
 }
 size_t RuntimeAppWrapper::getNumWindows() const
 {
