@@ -60,7 +60,7 @@ Any method that is used outside of the class files at compile time and that you 
 ```c++
 class MyClass {
   virtual void doSomething();
-  void doSomethingElse(); // changes to that method at runtime will not work
+  void doSomethingElse(); // changes to that method at runtime will only work inside the class
 };
 ```
 
@@ -137,16 +137,16 @@ To allow to use the fast REPL of Cling, no symbols are unloaded in the interpret
 namespace RuntimeBase { class Object {}; }
 std::shared_ptr<RuntimeBase::Object> instance = std::make_shared<RuntimeBase::Object>();
 // file saved
-namespace Runtime_Object_cling_Un1Qu34 { class Object : public Object {}; }
+namespace Runtime_Object_cling_Un1Qu34 { class Object : public RuntimeBase::Object {}; }
 instance = std::make_shared<Runtime_Object_cling_Un1Qu34::Object>();
 // file saved
-namespace Runtime_Object_cling_Un1Qu35 { class Object : public Object {}; }
+namespace Runtime_Object_cling_Un1Qu35 { class Object : public RuntimeBase::Object {}; }
 instance = std::make_shared<Runtime_Object_cling_Un1Qu35::Object>();
 // file saved
-namespace Runtime_Object_cling_Un1Qu36 { class Object : public Object {}; }
+namespace Runtime_Object_cling_Un1Qu36 { class Object : public RuntimeBase::Object {}; }
 instance = std::make_shared<Runtime_Object_cling_Un1Qu36::Object>();
 // file saved
-namespace Runtime_Object_cling_Un1Qu37 { class Object : public Object {}; }
+namespace Runtime_Object_cling_Un1Qu37 { class Object : public RuntimeBase::Object {}; }
 instance = std::make_shared<Runtime_Object_cling_Un1Qu37::Object>();
 ```
 
@@ -207,7 +207,7 @@ Tinderbox should create everything for you but here's a few extra steps to setup
   
 ![step8](docs/images/DualTarget09.jpg)  
   
-- You can now switch between a live-compiled and a perfectly clean version of your app. No need to add anything else to the code, the preprocessor will take care of removing anything related to Cinder-Runtime. Have a look at this [sample](samples/DualTarget) if you'd like to try.  
+- You can now switch between a live-compiled and a perfectly clean version of your app. No need to add anything else to the code, the different preprocessors will take care of removing anything related to Cinder-Runtime. This [sample](samples/DualTarget) is setup following this guide.  
   
 ![step9](docs/images/DualTarget10.jpg)  
   
