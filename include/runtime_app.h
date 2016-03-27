@@ -451,7 +451,11 @@ void runtime_app::main( const ci::app::RendererRef &defaultRenderer, const char 
 	// add cinder
 	interpreter->declare( "#define GLM_COMPILER 0" );
 	interpreter->AddIncludePath( blockPath.parent_path().parent_path().string() + "/include/" );
+#if defined(NDEBUG) || defined(_NDEBUG) || defined(RELEASE) || defined(MASTER) || defined(GOLD)
 	interpreter->loadFile( blockPath.parent_path().parent_path().string() + "/lib/libcinder_dynamic.dylib" );
+#else
+	interpreter->loadFile( blockPath.parent_path().parent_path().string() + "/lib/libcinder_dynamic_d.dylib" );
+#endif
 	
 	// add other interpreter options
 	if( runtimeSettingsFn ) {

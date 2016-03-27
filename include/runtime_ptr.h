@@ -411,7 +411,11 @@ void runtime_class<T>::loadCinder()
 	auto blockPath = ci::fs::path( __FILE__ ).parent_path().parent_path();
 	getInterpreter()->declare( "#define GLM_COMPILER 0" );
 	getInterpreter()->AddIncludePath( blockPath.parent_path().parent_path().string() + "/include/" );
+#if defined(NDEBUG) || defined(_NDEBUG) || defined(RELEASE) || defined(MASTER) || defined(GOLD)
 	getInterpreter()->loadFile( blockPath.parent_path().parent_path().string() + "/lib/libcinder_dynamic.dylib" );
+#else
+	getInterpreter()->loadFile( blockPath.parent_path().parent_path().string() + "/lib/libcinder_dynamic_d.dylib" );
+#endif
 }
 template<class T>
 void runtime_class<T>::declare( const std::string &declaration )
