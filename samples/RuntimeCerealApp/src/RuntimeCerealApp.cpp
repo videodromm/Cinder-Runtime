@@ -24,6 +24,7 @@ public:
 	virtual void save( cereal::BinaryOutputArchive &ar );
 	virtual void load( cereal::BinaryInputArchive &ar );
 	
+	float			mTime;
 	gl::BatchRef	mPlane, mTeapot;
 	CameraPersp		mCamera;
 	CameraUi		mCameraUi;
@@ -31,6 +32,7 @@ public:
 
 void RuntimeCerealApp::setup()
 {
+	mTime		= 0.0f;
 	mPlane		= gl::Batch::create( geom::Plane().subdivisions( ivec2( 10 ) ) >> geom::Lines(), gl::getStockShader( gl::ShaderDef().color() ) );
 	mTeapot		= gl::Batch::create( geom::Teapot() >> geom::Scale( vec3( 0.35f ) ), gl::getStockShader( gl::ShaderDef().lambert() ) );
 	mCamera		= CameraPersp( getWindowWidth(), getWindowHeight(), 60, 0.1, 1000 );
@@ -46,19 +48,22 @@ void RuntimeCerealApp::draw()
 	gl::ScopedDepth enableDepth( true );
 	
 	mPlane->draw();
-	gl::rotate( getElapsedSeconds(), vec3( 0.0f, 1.0f, 0.0f ) );
+	gl::translate( vec3( cos( mTime ), 0.0f, sin( mTime ) ) * 0.5f );
+	gl::rotate( mTime, vec3( 0.0f, 1.0f, 0.0f ) );
 	mTeapot->draw();
+	
+	mTime += 0.01f;
 }
 void RuntimeCerealApp::save( cereal::BinaryOutputArchive &ar )
 {
-	ar( mCamera.getEyePoint().x, mCamera.getEyePoint().y, mCamera.getEyePoint().z, mCamera.getOrientation().x, mCamera.getOrientation().y, mCamera.getOrientation().z, mCamera.getOrientation().w, mCamera.getPivotDistance() );
+	ar( mCamera.getEyePoint().x, mCamera.getEyePoint().y, mCamera.getEyePoint().z, mCamera.getOrientation().x, mCamera.getOrientation().y, mCamera.getOrientation().z, mCamera.getOrientation().w, mCamera.getPivotDistance(), mTime );
 }
 void RuntimeCerealApp::load( cereal::BinaryInputArchive &ar )
 {
 	ci::vec3 eye;
 	ci::quat orientation;
 	float pivotDist;
-	ar( eye.x, eye.y, eye.z, orientation.x, orientation.y, orientation.z, orientation.w, pivotDist );
+	ar( eye.x, eye.y, eye.z, orientation.x, orientation.y, orientation.z, orientation.w, pivotDist, mTime );
 	mCamera.setEyePoint( eye );
 	mCamera.setOrientation( orientation );
 	mCamera.setPivotDistance( pivotDist );

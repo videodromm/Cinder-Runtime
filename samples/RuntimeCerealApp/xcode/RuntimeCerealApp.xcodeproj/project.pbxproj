@@ -269,7 +269,7 @@
 				OTHER_LDFLAGS = (
 					../../../lib/lib/libCling.a,
 					"\"-lncurses\"",
-					../../../../../lib/libcinder_dynamic_d.dylib,
+					../../../../../lib/libcinder_d.dylib,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libcinder.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = RuntimeCerealApp;
@@ -300,7 +300,7 @@
 				OTHER_LDFLAGS = (
 					../../../lib/lib/libCling.a,
 					"\"-lncurses\"",
-					../../../../../lib/libcinder_dynamic.dylib,
+					../../../../../lib/libcinder.dylib,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libcinder.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = RuntimeCerealApp;

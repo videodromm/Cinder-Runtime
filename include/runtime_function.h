@@ -137,7 +137,7 @@ runtime_function<R(Args...)>::runtime_function( const std::string &function, con
 	if( options.needsCinder() ) {
 		mInterpreter->declare( "#define GLM_COMPILER 0" );
 		mInterpreter->AddIncludePath( blockPath.parent_path().parent_path().string() + "/include/" );
-		mInterpreter->loadFile( blockPath.parent_path().parent_path().string() + "/lib/libcinder_dynamic.dylib" );
+		mInterpreter->loadFile( blockPath.parent_path().parent_path().string() + "/lib/libcinder.dylib" );
 	}
 	
 	mFunctionPath = absolutePath;

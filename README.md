@@ -172,7 +172,8 @@ Start by running the ```install.sh``` to grab and build Cling, Llvm and Clang. T
 - Linking / LINK_WITH_STANDARD_LIBRARIES = YES
 - Packaging / EXECUTABLE_EXTENSION = dylib
 - Build Phases / Add IOKit, IOSurface, Accelerate, CoreAudio, CoreMedia and AVFoundation frameworks
-- Build ```cinder_dynamic.dylib``` and ```cinder_dynyamic_d.dylib```
+- Rename Product Name to "cinder" and "cinder_d"
+- Build ```libcinder.dylib``` and ```libcinder_d.dylib```
 
 Or see PR/Discussion [here](https://github.com/cinder/Cinder/pull/1355).
 
