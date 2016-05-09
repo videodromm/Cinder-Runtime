@@ -2,8 +2,8 @@
 JOBS=$(getconf _NPROCESSORS_CONF)
 
 #clone llvm and apply patches
-git clone http://root.cern.ch/git/llvm.git llvm_rep
-cd llvm_rep
+git clone http://root.cern.ch/git/llvm.git src
+cd src
 git checkout cling-patches
 
 #clone cling and clang
@@ -17,7 +17,7 @@ git checkout cling-patches
 cd ../..
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=../../lib/ -DLLVM_TARGETS_TO_BUILD=CppBackend\;X86 -DCMAKE_BUILD_TYPE=Release ..
+cmake -DCMAKE_INSTALL_PREFIX=../../lib/ -DLLVM_TARGETS_TO_BUILD="CppBackend;PowerPC;X86;" -DCMAKE_BUILD_TYPE=Release --enable-optimized  ..
 make -j${JOBS}
 make install -j${JOBS}
 

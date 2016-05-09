@@ -1,6 +1,6 @@
 #folder created by install.sh
 lib/
-llvm_rep/
+src/
 
 # Compiled Object files
 *.slo

@@ -4,12 +4,16 @@ Cinder-Runtime
 
 ####Introduction
 
-This block explores what is currently possible to do using Cling, Llvm and Clang. **This is highly experimental and is just a temporary solution while waiting for something more official.** The main code of this block is the ```runtime_ptr``` template. The class wraps a ```shared_ptr``` and pretty much works the same way at the exception that the wrapped class will be reloaded at runtime each time the source file is saved. This can be used to prototype code without having to wait between each compilation. It comes with its own limitations and is certainly not as complete as similar projects but clearly less invasive and much easier to use. There's also a ```runtime_function``` that mimics the ```std::function``` class and a ```CINDER_RUNTIME_APP``` macro to replace the usual ```CINDER_APP``` and have your whole app being re-compiled at runtime. 
+This block explores what is currently possible to do using Cling, Llvm and Clang.  
+
+**This is highly experimental. Think of this as a proof-of-concept and a first pass at understanding how to use clang directly.**   
+
+The main code of this block is the ```runtime_ptr``` template. The class wraps a ```shared_ptr``` and pretty much works the same way at the exception that the wrapped class will be reloaded at runtime each time the source file is saved. This can be used to prototype code without having to wait between each compilation. It comes with its own limitations and is certainly not as complete as similar projects but clearly less invasive and much easier to use. There's also a ```runtime_function``` that mimics the ```std::function``` class and a ```CINDER_RUNTIME_APP``` macro to replace the usual ```CINDER_APP``` and have your whole app being re-compiled at runtime. 
 
 *Make sure to read the ["How it works"](#how-it-works) section to understand what you can and can't do.*
 
 
-The block only supports [OSX](#osx-build-instructions) at the moment but PRs are most welcome.
+The block only supports [OSX](#osx-build-instructions) at the moment but PRs for windows are definitly most welcome. I've not managed to build clang and llvm properly on windows yet and would love if someone could give a hand on that part!
 
 
 ####```runtime_ptr```
@@ -154,6 +158,9 @@ Kind of ugly but it does allow fast reloading of your class while keeping an ext
 
 ####OSX Build Instructions
 
+###### Cloning the repository
+Clone this repository in the blocks folder of Cinder.
+
 ###### Install Libraries
 Start by running the ```install.sh``` to grab and build Cling, Llvm and Clang. There's a ```cleanup.sh``` if you want to save some disk space, but it will get rid of the binaries as well, so you better do that manually.
 
@@ -166,6 +173,8 @@ Start by running the ```install.sh``` to grab and build Cling, Llvm and Clang. T
 - Packaging / EXECUTABLE_EXTENSION = dylib
 - Build Phases / Add IOKit, IOSurface, Accelerate, CoreAudio, CoreMedia and AVFoundation frameworks
 - Build ```cinder_dynamic.dylib``` and ```cinder_dynyamic_d.dylib```
+
+Or see PR/Discussion [here](https://github.com/cinder/Cinder/pull/1355).
 
 ###### Potential errors about ```unistd.h``` or ```XcodeDefault.xctoolchain```
 If you run into that kind of errors you might want to try to update your command line dev. tools by running a ```xcode-select —install``` in terminal. If that doesn't work, try to update xcode. Once you have that solved you can remove the folders created by the install script and restart it.
