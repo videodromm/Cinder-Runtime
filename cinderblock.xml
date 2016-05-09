@@ -16,10 +16,10 @@
 	<header>include/runtime_app.h</header>
 
 	<platform config="debug">
-  		<dynamicLibrary cinder="true">lib/libcinder_dynamic_d.dylib</dynamicLibrary>
+  		<dynamicLibrary cinder="true">lib/libcinder_d.dylib</dynamicLibrary>
 	</platform>
 	<platform config="release">
-  		<dynamicLibrary cinder="true">lib/libcinder_dynamic.dylib</dynamicLibrary>
+  		<dynamicLibrary cinder="true">lib/libcinder.dylib</dynamicLibrary>
 	</platform>
 
 	<staticLibrary>lib/lib/libCling.a</staticLibrary>
