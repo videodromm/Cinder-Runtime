@@ -33,7 +33,7 @@
 #include "cinder/Filesystem.h"
 #include "cinder/System.h"
 #include "cling/Interpreter/Interpreter.h"
-#include "SourceWatchdog.h"
+#include "Watchdog.h"
 
 #ifdef RUNTIME_PTR_CEREALIZATION
 #include <utility>
@@ -137,6 +137,28 @@ protected:
 	friend class runtime_ptr<T>;
 	
 	static const std::unique_ptr<runtime_class>& instance() { static std::unique_ptr<runtime_class> inst = std::unique_ptr<runtime_class>( new runtime_class() ); return inst; }
+	
+	
+	//! Returns the app root folder
+	static ci::fs::path getAppRoot()
+	{
+		return ci::app::getAppPath().parent_path().parent_path().parent_path();
+	}
+	//! Recursively searches for the file
+	static ci::fs::path findFilePath( const ci::fs::path &path )
+	{
+		auto appRoot = getAppRoot();
+		if( ci::fs::is_directory( appRoot ) ) {
+			ci::fs::recursive_directory_iterator dir( appRoot ), endDir;
+			for( ; dir != endDir; ++dir ) {
+				auto current = (*dir).path();
+				if( current.filename() == path ) {
+					return ci::fs::canonical( current );
+				}
+			}
+		}
+		return ci::fs::path();
+	}
 	
 	std::shared_ptr<cling::Interpreter> mInterpreter;
 	std::map<runtime_ptr<T>*,std::function<void(const std::shared_ptr<T>&)>> mInstances;
@@ -277,7 +299,7 @@ std::shared_ptr<cling::Interpreter> runtime_class<T>::initialize( const ci::fs::
 		
 		// start watching file
 		std::string className = ci::System::demangleTypeName( typeid( T ).name() );
-		SourceWatchdog::watch( absolutePath, [absolutePath,className,isCpp]() {
+		wd::watch( absolutePath, [absolutePath,className,isCpp]( const ci::fs::path& ) {
 			// copy the file content to a string
 			std::string code;
 			std::vector<std::string> includes;
@@ -352,11 +374,10 @@ std::shared_ptr<cling::Interpreter> runtime_class<T>::initialize( const ci::fs::
 			instance()->mInterpreter->enableRawInput();
 			instance()->mInterpreter->declare( code );
 			instance()->mInterpreter->enableRawInput( false );
-			
+
 			// update instances with the new implementation
 			for( auto instance : instance()->mInstances ) {
 				auto instanceName = instance.first->getName();
-				
 #ifdef RUNTIME_PTR_CEREALIZATION
 				bool cerealized = false;
 				std::stringstream archiveStream;
@@ -427,23 +448,20 @@ void runtime_class<T>::declare( const std::string &declaration )
 template<class T>
 std::shared_ptr<cling::Interpreter> runtime_class<T>::getInterpreter()
 {
-	//std::cout << "getInterp" << std::endl;
 	if( !instance()->mInterpreter ) {
-		std::cout << "WTF" << std::endl;
 		// try to find both header and cpp file
-		auto cpp = ci::System::demangleTypeName( typeid(T).name() ) + ".cpp";
-		auto cppPath = SourceWatchdog::findFilePath( cpp );
-		auto header = ci::System::demangleTypeName( typeid(T).name() ) + ".h";
-		auto headerPath = SourceWatchdog::findFilePath( header );
+		auto className	= ci::System::demangleTypeName( typeid(T).name() );
+		auto cpp		= className + ".cpp";
+		auto header		= className + ".h";
+		auto cppPath	= findFilePath( cpp );
+		auto headerPath = findFilePath( header );
 		// try to initialize it with a .cpp file equal to the class name
 		if( ! cppPath.empty() ) {
 			initialize( cpp, Options().cinder() );
-			std::cout << "Init CPP " << cpp << std::endl;
 		}
 		// otherwise try to find a header
 		else if( ! headerPath.empty() ) {
 			initialize( header, Options().cinder() );
-			std::cout << "Init H " << header << std::endl;
 		}
 		// can't find a .h or a .cpp, throw an exception
 		else {
@@ -473,6 +491,7 @@ void runtime_class<T>::unregisterInstance( runtime_ptr<T>* ptr )
 
 template<class T>
 runtime_ptr<T>::runtime_ptr( bool runtime )
+: mPtr( std::make_shared<T>() )
 {
 	runtime_class<T>::registerInstance( this );
 }

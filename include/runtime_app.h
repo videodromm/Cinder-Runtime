@@ -38,9 +38,9 @@
 #include "cinder/System.h"
 #include "cinder/Utilities.h"
 #include "cling/Interpreter/Interpreter.h"
-#include "SourceWatchdog.h"
+#include "Watchdog.h"
 
-class RuntimeApp;
+class runtime_app;
 
 class RuntimeAppWrapper/* : public ci::app::AppBase*/ {
 public:
@@ -187,13 +187,13 @@ public:
 	virtual void load( cereal::BinaryInputArchive &ar ) {}
 #endif
 	
-	RuntimeApp* mParent;
+	runtime_app* mParent;
 };
 
-class RuntimeApp : public ci::app::App {
+class runtime_app : public ci::app::App {
 public:
-	RuntimeApp(){}
-	virtual ~RuntimeApp(){}
+	runtime_app(){}
+	virtual ~runtime_app(){}
 	
 	//! \cond
 	// Called during application instanciation via CINDER_APP_MAC macro
@@ -435,7 +435,7 @@ ci::app::RendererRef RuntimeAppWrapper::getDefaultRenderer() const
 }
 
 template<typename AppT>
-void RuntimeApp::main( const ci::app::RendererRef &defaultRenderer, const char *title, int argc, char * const argv[], const std::string &file, const SettingsFn &settingsFn, const std::function<void(cling::Interpreter *)> &runtimeSettingsFn )
+void runtime_app::main( const ci::app::RendererRef &defaultRenderer, const char *title, int argc, char * const argv[], const std::string &file, const SettingsFn &settingsFn, const std::function<void(cling::Interpreter *)> &runtimeSettingsFn )
 {
 	// init interpreter
 	// initialize cling interpreter
@@ -448,6 +448,7 @@ void RuntimeApp::main( const ci::app::RendererRef &defaultRenderer, const char *
 	interpreter->AddIncludePath( path.parent_path().string() );
 	interpreter->AddIncludePath( ( path.parent_path().parent_path() / "include" ).string() );
 	interpreter->AddIncludePath( ( blockPath / "include" ).string() );
+	interpreter->AddIncludePath( ( blockPath / "../Watchdog/include" ).string() );
 	
 	// add cinder
 	interpreter->declare( "#define GLM_COMPILER 0" );
@@ -473,7 +474,7 @@ void RuntimeApp::main( const ci::app::RendererRef &defaultRenderer, const char *
 		if( line.find( "CINDER_RUNTIME_APP" ) != std::string::npos ) {
 			break;
 		}
-		//if( line.find( "#include \"RuntimeApp.h\"" ) == std::string::npos ) {
+		//if( line.find( "#include \"runtime_app.h\"" ) == std::string::npos ) {
 		if( line.find( "#include" ) == std::string::npos ) {
 			originalCode += line + " \n";
 		}
@@ -515,13 +516,11 @@ void RuntimeApp::main( const ci::app::RendererRef &defaultRenderer, const char *
 	if( settings.getShouldQuit() )
 		return;
 	
-	RuntimeApp *runtimeApp = new RuntimeApp();
+	runtime_app *runtimeApp = new runtime_app();
 	
 	// watch cpp
 	std::string className = ci::System::demangleTypeName( typeid( AppT ).name() );
-	SourceWatchdog::watch( path, [path,className,interpreter,runtimeApp]() {
-		std::cout << "Loading " << path << std::endl;
-		
+	wd::watch( path, [path,className,interpreter,runtimeApp]( const ci::fs::path& ) {
 		// copy the file content to a string
 		std::string code;
 		
@@ -616,7 +615,7 @@ void RuntimeApp::main( const ci::app::RendererRef &defaultRenderer, const char *
 int main( int argc, char* argv[] )											\
 {																					\
 cinder::app::RendererRef renderer( new RENDERER );								\
-RuntimeApp::main<APP>( renderer, #APP, argc, argv, __FILE__, ##__VA_ARGS__ );	\
+runtime_app::main<APP>( renderer, #APP, argc, argv, __FILE__, ##__VA_ARGS__ );	\
 return 0;																		\
 }
 

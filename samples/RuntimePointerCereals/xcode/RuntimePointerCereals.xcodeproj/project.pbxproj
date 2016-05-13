@@ -16,12 +16,12 @@
 		00B784B60FF439BC000DE1D7 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B20FF439BC000DE1D7 /* CoreAudio.framework */; };
 		00B9955A1B128DF400A5C623 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B995581B128DF400A5C623 /* IOKit.framework */; };
 		00B9955B1B128DF400A5C623 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B995591B128DF400A5C623 /* IOSurface.framework */; };
-		2011C2A84F1B40A0B26A8A28 /* RuntimePointerCerealsApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 114D44FC940844CBB4EC0F33 /* RuntimePointerCerealsApp.cpp */; };
-		4B3A759C1C7206C90079FB9A /* ObjectA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B3A759A1C7206C90079FB9A /* ObjectA.cpp */; };
-		4B3A759F1C721CE20079FB9A /* ObjectB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B3A759D1C721CE20079FB9A /* ObjectB.cpp */; };
+		4BDC41B51CE5B6FE008FB838 /* ObjectA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4BDC41B11CE5B6FE008FB838 /* ObjectA.cpp */; };
+		4BDC41B61CE5B6FE008FB838 /* ObjectB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4BDC41B31CE5B6FE008FB838 /* ObjectB.cpp */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		EDE61AF6BD4B47EF85CCE16C /* CinderApp.icns in Resources */ = {isa = PBXBuildFile; fileRef = C34755FF715845B395321D87 /* CinderApp.icns */; };
+		BA71C70BCB33412ABC9025F6 /* RuntimePointerCerealsApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55C1017882214C7DA0FAD347 /* RuntimePointerCerealsApp.cpp */; };
+		BC1801C265F44207BBDDF26D /* CinderApp.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7AAAFCF092A04007BE318B39 /* CinderApp.icns */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,24 +34,24 @@
 		00B784B20FF439BC000DE1D7 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		00B995581B128DF400A5C623 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		00B995591B128DF400A5C623 /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOSurface.framework; path = System/Library/Frameworks/IOSurface.framework; sourceTree = SDKROOT; };
-		0C9B083387F9443C99D4CCF4 /* Watchdog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Watchdog.h; path = ../../../include/Watchdog.h; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		114D44FC940844CBB4EC0F33 /* RuntimePointerCerealsApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = RuntimePointerCerealsApp.cpp; path = ../src/RuntimePointerCerealsApp.cpp; sourceTree = "<group>"; };
-		231620CA94AD405BBD896D92 /* runtime_ptr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = runtime_ptr.h; path = ../../../include/runtime_ptr.h; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		4640ECD6BCF04B46960E449E /* RuntimePointerCereals_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = RuntimePointerCereals_Prefix.pch; sourceTree = "<group>"; };
-		4B3A759A1C7206C90079FB9A /* ObjectA.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectA.cpp; path = ../src/ObjectA.cpp; sourceTree = "<group>"; };
-		4B3A759B1C7206C90079FB9A /* ObjectA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjectA.h; path = ../src/ObjectA.h; sourceTree = "<group>"; };
-		4B3A759D1C721CE20079FB9A /* ObjectB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectB.cpp; path = ../src/ObjectB.cpp; sourceTree = "<group>"; };
-		4B3A759E1C721CE20079FB9A /* ObjectB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjectB.h; path = ../src/ObjectB.h; sourceTree = "<group>"; };
+		303AF79011794220892FD1E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4BDC41B11CE5B6FE008FB838 /* ObjectA.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectA.cpp; path = ../src/ObjectA.cpp; sourceTree = "<group>"; };
+		4BDC41B21CE5B6FE008FB838 /* ObjectA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjectA.h; path = ../src/ObjectA.h; sourceTree = "<group>"; };
+		4BDC41B31CE5B6FE008FB838 /* ObjectB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectB.cpp; path = ../src/ObjectB.cpp; sourceTree = "<group>"; };
+		4BDC41B41CE5B6FE008FB838 /* ObjectB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjectB.h; path = ../src/ObjectB.h; sourceTree = "<group>"; };
+		4CA059B19847407A9D574DD0 /* Resources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Resources.h; path = ../include/Resources.h; sourceTree = "<group>"; };
 		5323E6B10EAFCA74003A9687 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
-		6A051BDB25DA4CA8A3535F2E /* runtime_function.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = runtime_function.h; path = ../../../include/runtime_function.h; sourceTree = "<group>"; };
-		7C539B888F2E4167B62608DF /* runtime_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = runtime_app.h; path = ../../../include/runtime_app.h; sourceTree = "<group>"; };
-		808ED39682FC4F0BAEE04D76 /* Resources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Resources.h; path = ../include/Resources.h; sourceTree = "<group>"; };
+		55C1017882214C7DA0FAD347 /* RuntimePointerCerealsApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = RuntimePointerCerealsApp.cpp; path = ../src/RuntimePointerCerealsApp.cpp; sourceTree = "<group>"; };
+		7AAAFCF092A04007BE318B39 /* CinderApp.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = CinderApp.icns; path = ../resources/CinderApp.icns; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* RuntimePointerCereals.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RuntimePointerCereals.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C34755FF715845B395321D87 /* CinderApp.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = CinderApp.icns; path = ../resources/CinderApp.icns; sourceTree = "<group>"; };
-		E5112584D51A4CB29566CD9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8EED90E5CCAB4D2F94829B37 /* runtime_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = runtime_app.h; path = ../../../include/runtime_app.h; sourceTree = "<group>"; };
+		93902FA51D8E4BCAB96E363E /* CinderCereal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CinderCereal.h; path = "../blocks/Cinder-Cereal/include/CinderCereal.h"; sourceTree = "<group>"; };
+		C6AED07B9D90434A8C3D5EF5 /* Watchdog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Watchdog.h; path = ../../../../Watchdog/include/Watchdog.h; sourceTree = "<group>"; };
+		D1A37BA35B6A4A95A9AE0C2C /* runtime_ptr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = runtime_ptr.h; path = ../../../include/runtime_ptr.h; sourceTree = "<group>"; };
+		DF071C68DD2640188110AE9B /* RuntimePointerCereals_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = RuntimePointerCereals_Prefix.pch; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +79,9 @@
 		01B97315FEAEA392516A2CEA /* Blocks */ = {
 			isa = PBXGroup;
 			children = (
-				AE771D603FFF4F88BD4EDB90 /* Cinder-Runtime */,
+				CD223C8747AB4ED6A0E48BD4 /* Cinder-Cereal */,
+				8932358584BD495086368B0D /* Cinder-Runtime */,
+				C16EA67A3B6C4E4EA89AA213 /* Watchdog */,
 			);
 			name = Blocks;
 			sourceTree = "<group>";
@@ -87,11 +89,11 @@
 		080E96DDFE201D6D7F000001 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				4B3A759A1C7206C90079FB9A /* ObjectA.cpp */,
-				4B3A759B1C7206C90079FB9A /* ObjectA.h */,
-				4B3A759D1C721CE20079FB9A /* ObjectB.cpp */,
-				4B3A759E1C721CE20079FB9A /* ObjectB.h */,
-				114D44FC940844CBB4EC0F33 /* RuntimePointerCerealsApp.cpp */,
+				4BDC41B11CE5B6FE008FB838 /* ObjectA.cpp */,
+				4BDC41B21CE5B6FE008FB838 /* ObjectA.h */,
+				4BDC41B31CE5B6FE008FB838 /* ObjectB.cpp */,
+				4BDC41B41CE5B6FE008FB838 /* ObjectB.h */,
+				55C1017882214C7DA0FAD347 /* RuntimePointerCerealsApp.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -123,6 +125,14 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
+		156361C13A81430D9EA54122 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				C6AED07B9D90434A8C3D5EF5 /* Watchdog.h */,
+			);
+			name = include;
+			sourceTree = "<group>";
+		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -147,8 +157,8 @@
 		29B97315FDCFA39411CA2CEA /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				808ED39682FC4F0BAEE04D76 /* Resources.h */,
-				4640ECD6BCF04B46960E449E /* RuntimePointerCereals_Prefix.pch */,
+				4CA059B19847407A9D574DD0 /* Resources.h */,
+				DF071C68DD2640188110AE9B /* RuntimePointerCereals_Prefix.pch */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -156,8 +166,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				C34755FF715845B395321D87 /* CinderApp.icns */,
-				E5112584D51A4CB29566CD9C /* Info.plist */,
+				7AAAFCF092A04007BE318B39 /* CinderApp.icns */,
+				303AF79011794220892FD1E1 /* Info.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -171,23 +181,45 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		5F04103B48464CB6BA533B5E /* include */ = {
+		47E7303589604DD0BDC447F0 /* include */ = {
 			isa = PBXGroup;
 			children = (
-				7C539B888F2E4167B62608DF /* runtime_app.h */,
-				6A051BDB25DA4CA8A3535F2E /* runtime_function.h */,
-				231620CA94AD405BBD896D92 /* runtime_ptr.h */,
-				0C9B083387F9443C99D4CCF4 /* Watchdog.h */,
+				D1A37BA35B6A4A95A9AE0C2C /* runtime_ptr.h */,
+				8EED90E5CCAB4D2F94829B37 /* runtime_app.h */,
 			);
 			name = include;
 			sourceTree = "<group>";
 		};
-		AE771D603FFF4F88BD4EDB90 /* Cinder-Runtime */ = {
+		8932358584BD495086368B0D /* Cinder-Runtime */ = {
 			isa = PBXGroup;
 			children = (
-				5F04103B48464CB6BA533B5E /* include */,
+				47E7303589604DD0BDC447F0 /* include */,
 			);
 			name = "Cinder-Runtime";
+			sourceTree = "<group>";
+		};
+		C16EA67A3B6C4E4EA89AA213 /* Watchdog */ = {
+			isa = PBXGroup;
+			children = (
+				156361C13A81430D9EA54122 /* include */,
+			);
+			name = Watchdog;
+			sourceTree = "<group>";
+		};
+		CC68DB893CCB4CA2AA0131A2 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				93902FA51D8E4BCAB96E363E /* CinderCereal.h */,
+			);
+			name = include;
+			sourceTree = "<group>";
+		};
+		CD223C8747AB4ED6A0E48BD4 /* Cinder-Cereal */ = {
+			isa = PBXGroup;
+			children = (
+				CC68DB893CCB4CA2AA0131A2 /* include */,
+			);
+			name = "Cinder-Cereal";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -242,7 +274,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EDE61AF6BD4B47EF85CCE16C /* CinderApp.icns in Resources */,
+				BC1801C265F44207BBDDF26D /* CinderApp.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,9 +285,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4B3A759F1C721CE20079FB9A /* ObjectB.cpp in Sources */,
-				4B3A759C1C7206C90079FB9A /* ObjectA.cpp in Sources */,
-				2011C2A84F1B40A0B26A8A28 /* RuntimePointerCerealsApp.cpp in Sources */,
+				4BDC41B61CE5B6FE008FB838 /* ObjectB.cpp in Sources */,
+				4BDC41B51CE5B6FE008FB838 /* ObjectA.cpp in Sources */,
+				BA71C70BCB33412ABC9025F6 /* RuntimePointerCerealsApp.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,12 +368,12 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"\"$(CINDER_PATH)/include\"",
-					../include,
+					"\"../blocks/Cinder-Cereal/lib/cereal/include\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include ../../../include ../../../lib/include";
+				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include \"../blocks/Cinder-Cereal/include\" ../../../include ../../../lib/include ../../../../Watchdog/include";
 			};
 			name = Debug;
 		};
@@ -356,11 +388,11 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"\"$(CINDER_PATH)/include\"",
-					../include,
+					"\"../blocks/Cinder-Cereal/lib/cereal/include\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include ../../../include ../../../lib/include";
+				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include \"../blocks/Cinder-Cereal/include\" ../../../include ../../../lib/include ../../../../Watchdog/include";
 			};
 			name = Release;
 		};

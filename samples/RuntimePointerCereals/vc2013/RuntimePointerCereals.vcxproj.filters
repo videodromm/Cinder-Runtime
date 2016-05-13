@@ -13,24 +13,33 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
     <Filter Include="Blocks">
-      <UniqueIdentifier>{A3D73966-3F88-4205-866D-0A2DC8E2BF55}</UniqueIdentifier>
+      <UniqueIdentifier>{1623A915-D7D8-485F-803A-F3A64CF54A95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\Cinder-Cereal">
+      <UniqueIdentifier>{03E7283F-B60D-4DF2-A3D1-1271C65F5113}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\Cinder-Cereal\include">
+      <UniqueIdentifier>{EAA413D4-460C-4618-BC2E-AB2196F69A93}</UniqueIdentifier>
     </Filter>
     <Filter Include="Blocks\Watchdog">
-      <UniqueIdentifier>{AE1BE902-F033-4776-B1BC-7442A89AD612}</UniqueIdentifier>
+      <UniqueIdentifier>{9B8523CA-8D7C-473B-9CDE-3BAF221C2CC5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Blocks\Watchdog\include">
-      <UniqueIdentifier>{EC89BC60-C34A-411C-8887-F595CF758889}</UniqueIdentifier>
+      <UniqueIdentifier>{DA9AED61-CDF4-42DB-8916-1806C77097A3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\DualTargetApp.cpp">
+    <ClCompile Include="..\src\RuntimePointerCerealsApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\DualTargetApp.cpp">
+    <ClCompile Include="..\src\RuntimePointerCerealsApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClInclude Include="..\include\Resources.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\Cinder-Cereal\include\CinderCereal.h">
+      <Filter>Blocks\Cinder-Cereal\include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\Watchdog\include\Watchdog.h">
       <Filter>Blocks\Watchdog\include</Filter>

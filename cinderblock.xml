@@ -8,6 +8,7 @@
 	library="https://root.cern.ch/cling"
 	>
 	<supports os="macosx" />
+	<requires>sg.watchdog</requires>
 	
 	<includePath>include</includePath>
 	<includePath>lib/include</includePath>

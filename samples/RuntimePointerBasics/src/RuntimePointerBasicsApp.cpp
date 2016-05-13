@@ -23,11 +23,14 @@ public:
 
 void RuntimePointerBasicsApp::setup()
 {
+/*
+ // By default runtime_ptr will try to find the source files automatically but
+ // you can also manually specify them or provide more interpreter options like this :
 #ifndef DISABLE_RUNTIME_COMPILED_PTR
-	// you need to register your class before using it
 	// We're passing a Options().cinder() as we're using Cinder in the class code
 	runtime_class<Object>::initialize( "Object.cpp", runtime_class<Object>::Options().cinder() );
 #endif
+ */
 	
 	// create the runtime pointer
 	mPtr = make_runtime<Object>();

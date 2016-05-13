@@ -13,28 +13,34 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
     <Filter Include="Blocks">
-      <UniqueIdentifier>{A6821D76-6464-45B2-BE49-60B4374CD702}</UniqueIdentifier>
+      <UniqueIdentifier>{B7C06515-34CB-4994-8566-C5D1F4CE41E6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Blocks\ImGui">
-      <UniqueIdentifier>{F13C11CC-A688-4422-956E-42CDF3BC661C}</UniqueIdentifier>
+      <UniqueIdentifier>{C3908D61-F136-4D89-9442-155F58CA9591}</UniqueIdentifier>
     </Filter>
     <Filter Include="Blocks\ImGui\include">
-      <UniqueIdentifier>{E955BC44-714A-4884-A8B5-220B4B473622}</UniqueIdentifier>
+      <UniqueIdentifier>{2DE3B6BA-AC37-472E-B53D-279CEBE459D0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Blocks\ImGui\lib">
-      <UniqueIdentifier>{A251F3FF-227F-4F20-A7B6-517E3D1EA103}</UniqueIdentifier>
+      <UniqueIdentifier>{4D5A22AB-6FC7-4F77-9AC3-B0445BE5BCFC}</UniqueIdentifier>
     </Filter>
     <Filter Include="Blocks\ImGui\lib\imgui">
-      <UniqueIdentifier>{CE3954BD-EF90-470B-85C3-CF27AB11FD3E}</UniqueIdentifier>
+      <UniqueIdentifier>{15ECC979-F506-46A5-BD46-30B44BD39300}</UniqueIdentifier>
     </Filter>
     <Filter Include="Blocks\ImGui\src">
-      <UniqueIdentifier>{C91F29E4-A989-408D-B856-80F96AA129B8}</UniqueIdentifier>
+      <UniqueIdentifier>{67E21A5B-E6A7-4744-A465-FE46D61BFE2E}</UniqueIdentifier>
     </Filter>
     <Filter Include="Blocks\Simplex Noise">
-      <UniqueIdentifier>{C9CD15C5-BEDB-486F-B965-4ED1FAD3420B}</UniqueIdentifier>
+      <UniqueIdentifier>{FEA05D28-1A48-4CE7-9378-BA54ABDF2D80}</UniqueIdentifier>
     </Filter>
     <Filter Include="Blocks\Simplex Noise\include">
-      <UniqueIdentifier>{26147FC1-E50B-4B32-9C14-6EF40F3EE0CA}</UniqueIdentifier>
+      <UniqueIdentifier>{E083D9DC-C1DE-4232-A271-927F1E7CE323}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\Watchdog">
+      <UniqueIdentifier>{82C32C72-62F6-436A-846F-EFF7A8FDE698}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\Watchdog\include">
+      <UniqueIdentifier>{E3F9EA2C-B409-47E7-8A11-9916D9809F48}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +85,9 @@
     </ClCompile>
     <ClInclude Include="..\blocks\Simplex Noise\include\Simplex.h">
       <Filter>Blocks\Simplex Noise\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Watchdog\include\Watchdog.h">
+      <Filter>Blocks\Watchdog\include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -13,20 +13,20 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
     <Filter Include="Blocks">
-      <UniqueIdentifier>{A3D73966-3F88-4205-866D-0A2DC8E2BF55}</UniqueIdentifier>
+      <UniqueIdentifier>{A2AD350E-2DFC-4C8D-AA8B-836D926DD28E}</UniqueIdentifier>
     </Filter>
     <Filter Include="Blocks\Watchdog">
-      <UniqueIdentifier>{AE1BE902-F033-4776-B1BC-7442A89AD612}</UniqueIdentifier>
+      <UniqueIdentifier>{19E66DE0-662C-49A1-8B8F-8300A1E1A613}</UniqueIdentifier>
     </Filter>
     <Filter Include="Blocks\Watchdog\include">
-      <UniqueIdentifier>{EC89BC60-C34A-411C-8887-F595CF758889}</UniqueIdentifier>
+      <UniqueIdentifier>{9938DAEE-D556-4943-9025-656C0A935327}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\DualTargetApp.cpp">
+    <ClCompile Include="..\src\RuntimePointerBasicsApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\DualTargetApp.cpp">
+    <ClCompile Include="..\src\RuntimePointerBasicsApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClInclude Include="..\include\Resources.h">

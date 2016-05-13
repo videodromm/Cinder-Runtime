@@ -10,7 +10,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{27677C9F-D717-4499-8FD7-5F801BDEC320}</ProjectGuid>
+    <ProjectGuid>{D42A8B23-4769-400A-9D83-0B6E120E52EA}</ProjectGuid>
     <RootNamespace>RuntimeAppSettings</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
@@ -49,7 +49,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\include;"..\..\..\..\..\include";..\blocks\ImGui\lib\imgui;..\blocks\ImGui\include;..\blocks\Simplex Noise\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include;"..\..\..\..\..\include";..\blocks\ImGui\lib\imgui;..\blocks\ImGui\include;..\blocks\Simplex Noise\include;..\..\..\..\Watchdog\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WIN32_WINNT=0x0601;_WINDOWS;NOMINMAX;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -75,7 +75,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\include;"..\..\..\..\..\include";..\blocks\ImGui\lib\imgui;..\blocks\ImGui\include;..\blocks\Simplex Noise\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include;"..\..\..\..\..\include";..\blocks\ImGui\lib\imgui;..\blocks\ImGui\include;..\blocks\Simplex Noise\include;..\..\..\..\Watchdog\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WIN32_WINNT=0x0601;_WINDOWS;NOMINMAX;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader />
@@ -123,6 +123,7 @@
     <ClInclude Include="..\blocks\ImGui\lib\imgui\imgui.h" />
     <ClInclude Include="..\blocks\ImGui\lib\imgui\imgui_internal.h" />
     <ClInclude Include="..\blocks\Simplex Noise\include\Simplex.h" />
+    <ClInclude Include="..\..\..\..\Watchdog\include\Watchdog.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

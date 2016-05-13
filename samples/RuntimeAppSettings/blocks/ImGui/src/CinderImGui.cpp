@@ -243,7 +243,7 @@ ImGui::Options& ImGui::Options::darkTheme()
 	mStyle.ScrollbarRounding	= 16.0f;
 	
 	ImGuiStyle& style = mStyle;
-	style.Colors[ImGuiCol_Text]                  = ImVec4(0.86f, 0.93f, 0.89f, 0.61f);
+	style.Colors[ImGuiCol_Text]                  = ImVec4(0.86f, 0.93f, 0.89f, 0.78f);
 	style.Colors[ImGuiCol_TextDisabled]          = ImVec4(0.86f, 0.93f, 0.89f, 0.28f);
 	style.Colors[ImGuiCol_WindowBg]              = ImVec4(0.13f, 0.14f, 0.17f, 1.00f);
 	style.Colors[ImGuiCol_ChildWindowBg]         = ImVec4(0.20f, 0.22f, 0.27f, 0.58f);
@@ -257,7 +257,7 @@ ImGui::Options& ImGui::Options::darkTheme()
 	style.Colors[ImGuiCol_TitleBgActive]         = ImVec4(0.92f, 0.18f, 0.29f, 1.00f);
 	style.Colors[ImGuiCol_MenuBarBg]             = ImVec4(0.20f, 0.22f, 0.27f, 0.47f);
 	style.Colors[ImGuiCol_ScrollbarBg]           = ImVec4(0.20f, 0.22f, 0.27f, 1.00f);
-	style.Colors[ImGuiCol_ScrollbarGrab]         = ImVec4(0.47f, 0.77f, 0.83f, 0.21f);
+	style.Colors[ImGuiCol_ScrollbarGrab]         = ImVec4(0.09f, 0.15f, 0.16f, 1.00f);
 	style.Colors[ImGuiCol_ScrollbarGrabHovered]  = ImVec4(0.92f, 0.18f, 0.29f, 0.78f);
 	style.Colors[ImGuiCol_ScrollbarGrabActive]   = ImVec4(0.92f, 0.18f, 0.29f, 1.00f);
 	style.Colors[ImGuiCol_ComboBg]               = ImVec4(0.20f, 0.22f, 0.27f, 1.00f);
@@ -270,7 +270,7 @@ ImGui::Options& ImGui::Options::darkTheme()
 	style.Colors[ImGuiCol_Header]                = ImVec4(0.92f, 0.18f, 0.29f, 0.76f);
 	style.Colors[ImGuiCol_HeaderHovered]         = ImVec4(0.92f, 0.18f, 0.29f, 0.86f);
 	style.Colors[ImGuiCol_HeaderActive]          = ImVec4(0.92f, 0.18f, 0.29f, 1.00f);
-	style.Colors[ImGuiCol_Column]                = ImVec4(0.47f, 0.77f, 0.83f, 0.32f);
+	style.Colors[ImGuiCol_Column]                = ImVec4(0.14f, 0.16f, 0.19f, 1.00f);
 	style.Colors[ImGuiCol_ColumnHovered]         = ImVec4(0.92f, 0.18f, 0.29f, 0.78f);
 	style.Colors[ImGuiCol_ColumnActive]          = ImVec4(0.92f, 0.18f, 0.29f, 1.00f);
 	style.Colors[ImGuiCol_ResizeGrip]            = ImVec4(0.47f, 0.77f, 0.83f, 0.04f);
@@ -324,6 +324,7 @@ public:
 	void initGlslProg();
 	
 	ImFont* getFont( const std::string &name );
+	void clearFonts();
 	
 protected:
 	ci::gl::Texture2dRef	mFontTexture;
@@ -499,6 +500,10 @@ ImFont* Renderer::addFont( ci::DataSourceRef font, float size, const ImWchar* gl
 	
 	mFonts.insert( make_pair( font->getFilePath().stem().string(), newFont ) );
 	return newFont;
+}
+void Renderer::clearFonts()
+{
+	mFonts.clear();
 }
 
 //! initalizes and returns the shader
@@ -865,8 +870,11 @@ static vector<signals::Connection> sWindowConnections;
 
 void initialize( const Options &options )
 {
+	// get the window and switch to its context before initializing the renderer
+	auto window					= options.getWindow();
+	auto currentContext			= gl::context();
+	window->getRenderer()->makeCurrentContext();
 	auto renderer				= getRenderer();
-	auto window				= options.getWindow();
 	
 	// set style
 	const ImGuiStyle& style			= options.getStyle();
@@ -929,6 +937,7 @@ void initialize( const Options &options )
 	// setup fonts
 	ImFontAtlas* fontAtlas  = ImGui::GetIO().Fonts;
 	fontAtlas->Clear();
+	renderer->clearFonts();
 	for( auto font : options.getFonts() ){
 		string name = font.first.stem().string();
 		renderer->addFont( loadFile( font.first ), font.second, options.getFontGlyphRanges( name )  );
@@ -976,6 +985,9 @@ void initialize( const Options &options )
 	app::App::get()->getSignalWillResignActive().connect( resetKeys );
 	
 	sInitialized = true;
+	
+	// switch back to the original gl context
+	currentContext->makeCurrent();
 }
 
 

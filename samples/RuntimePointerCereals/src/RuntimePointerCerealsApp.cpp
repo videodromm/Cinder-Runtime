@@ -31,8 +31,8 @@ void RuntimePointerCerealsApp::setup()
 #ifndef DISABLE_RUNTIME_COMPILED_PTR
 	runtime_class<ObjectA>::initialize( "ObjectA.cpp", runtime_class<ObjectA>::Options()
 									   .cinder()
-									   // we need to add our "/include" folder so Cling knows where to find <cereal/...>
-									  .includePath( "../../../include" ) );
+									   // we need to add our "/blocks/Cinder-Cereal/lib" folder so Cling knows where to find <cereal/...>
+									  .includePath( "../../../blocks/Cinder-Cereal/lib/cereal/include" ) );
 	runtime_class<ObjectB>::initialize( "ObjectB.cpp", runtime_class<ObjectB>::Options().cinder() );
 #endif
 	
