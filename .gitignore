@@ -1,6 +1,7 @@
 #folder created by install.sh
 lib/
 !samples/RuntimeAppSettings/blocks/ImGui/lib/
+!samples/RuntimePointerCereals/blocks/Cinder-Cereal/lib/
 src/
 
 # Compiled Object files
