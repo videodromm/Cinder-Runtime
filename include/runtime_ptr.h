@@ -1,4 +1,5 @@
 /*
+ Cinder-Runtime
  runtime_ptr
  Copyright (c) 2016, Simon Geilfus, All rights reserved.
  
@@ -24,7 +25,7 @@
 
 #include <memory>
 
-#ifndef DISABLE_RUNTIME_COMPILED_PTR
+#if ! defined( DISABLE_RUNTIME_COMPILATION ) && ! defined( DISABLE_RUNTIME_COMPILED_PTR )
 
 #include <map>
 
@@ -32,7 +33,7 @@
 #include "cinder/Filesystem.h"
 #include "cinder/System.h"
 #include "cling/Interpreter/Interpreter.h"
-#include "Watchdog.h"
+#include "SourceWatchdog.h"
 
 #ifdef RUNTIME_PTR_CEREALIZATION
 #include <utility>
@@ -176,7 +177,7 @@ typename runtime_class<T>::Options& runtime_class<T>::Options::declaration( cons
 template<class T>
 std::shared_ptr<cling::Interpreter> runtime_class<T>::initialize( const ci::fs::path &path, const Options &options )
 {
-	if( !instance()->mInterpreter ) {
+	if( ! instance()->mInterpreter ) {
 		
 		// find the actual path
 		ci::fs::path absolutePath;
@@ -198,7 +199,7 @@ std::shared_ptr<cling::Interpreter> runtime_class<T>::initialize( const ci::fs::
 		instance()->mInterpreter = std::make_shared<cling::Interpreter>( 1, args, ( blockPath.string() + "/lib/" ).c_str() );
 		
 		// add the parent path to the include paths
-		getInterpreter()->AddIncludePath( absolutePath.parent_path().string() );
+		instance()->mInterpreter->AddIncludePath( absolutePath.parent_path().string() );
 		
 		// process the class options
 		for( const auto &p : options.getIncludePaths() ) {
@@ -269,21 +270,21 @@ std::shared_ptr<cling::Interpreter> runtime_class<T>::initialize( const ci::fs::
 		originalCode = includesString + "\n\nnamespace RuntimeBase {\n" + originalCode + "\n};";
 		
 		// process the original code once
-		getInterpreter()->enableRawInput();
-		getInterpreter()->declare( originalCode );
-		getInterpreter()->enableRawInput( false );
-		getInterpreter()->declare( "#include <memory>" );
+		instance()->mInterpreter->enableRawInput();
+		instance()->mInterpreter->declare( originalCode );
+		instance()->mInterpreter->enableRawInput( false );
+		instance()->mInterpreter->declare( "#include <memory>" );
 		
 		// start watching file
 		std::string className = ci::System::demangleTypeName( typeid( T ).name() );
-		wd::watch( absolutePath, [className,isCpp]( const ci::fs::path &p ) {
+		SourceWatchdog::watch( absolutePath, [absolutePath,className,isCpp]() {
 			// copy the file content to a string
 			std::string code;
 			std::vector<std::string> includes;
 			
 			// if it's a header just copy it like this
 			if( !isCpp ) {
-				std::ifstream infile( p.c_str() );
+				std::ifstream infile( absolutePath.c_str() );
 				std::string line;
 				while( std::getline( infile, line ) ) {
 					//code += line + " \n";
@@ -295,9 +296,9 @@ std::shared_ptr<cling::Interpreter> runtime_class<T>::initialize( const ci::fs::
 			}
 			// otherwise remove the include in the cpp file and prepend the header before the implementation
 			else {
-				std::string stem = p.stem().string();
-				ci::fs::path header = p.parent_path() / ( stem + ".h" );
-				ci::fs::path impl = p.parent_path() / ( stem + ".cpp" );
+				std::string stem = absolutePath.stem().string();
+				ci::fs::path header = absolutePath.parent_path() / ( stem + ".h" );
+				ci::fs::path impl = absolutePath.parent_path() / ( stem + ".cpp" );
 				
 				std::string line;
 				std::ifstream headerFile( header.c_str() );
@@ -329,7 +330,7 @@ std::shared_ptr<cling::Interpreter> runtime_class<T>::initialize( const ci::fs::
 			
 			// make a unique namespace name
 			std::string uniqueNamespace;
-			getInterpreter()->createUniqueName( uniqueNamespace );
+			instance()->mInterpreter->createUniqueName( uniqueNamespace );
 			uniqueNamespace = className + uniqueNamespace;
 			
 			// wrap the code in its own unique namespace
@@ -348,9 +349,9 @@ std::shared_ptr<cling::Interpreter> runtime_class<T>::initialize( const ci::fs::
 			}
 			
 			// process the new code
-			getInterpreter()->enableRawInput();
-			getInterpreter()->declare( code );
-			getInterpreter()->enableRawInput( false );
+			instance()->mInterpreter->enableRawInput();
+			instance()->mInterpreter->declare( code );
+			instance()->mInterpreter->enableRawInput( false );
 			
 			// update instances with the new implementation
 			for( auto instance : instance()->mInstances ) {
@@ -426,8 +427,28 @@ void runtime_class<T>::declare( const std::string &declaration )
 template<class T>
 std::shared_ptr<cling::Interpreter> runtime_class<T>::getInterpreter()
 {
+	//std::cout << "getInterp" << std::endl;
 	if( !instance()->mInterpreter ) {
-		throw MissingInterpreterException( ci::System::demangleTypeName( typeid(T).name() ) );
+		std::cout << "WTF" << std::endl;
+		// try to find both header and cpp file
+		auto cpp = ci::System::demangleTypeName( typeid(T).name() ) + ".cpp";
+		auto cppPath = SourceWatchdog::findFilePath( cpp );
+		auto header = ci::System::demangleTypeName( typeid(T).name() ) + ".h";
+		auto headerPath = SourceWatchdog::findFilePath( header );
+		// try to initialize it with a .cpp file equal to the class name
+		if( ! cppPath.empty() ) {
+			initialize( cpp, Options().cinder() );
+			std::cout << "Init CPP " << cpp << std::endl;
+		}
+		// otherwise try to find a header
+		else if( ! headerPath.empty() ) {
+			initialize( header, Options().cinder() );
+			std::cout << "Init H " << header << std::endl;
+		}
+		// can't find a .h or a .cpp, throw an exception
+		else {
+			throw MissingInterpreterException( ci::System::demangleTypeName( typeid(T).name() ) );
+		}
 	}
 	return instance()->mInterpreter;
 }

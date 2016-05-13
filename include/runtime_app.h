@@ -1,5 +1,6 @@
 /*
- runtime_app
+ Cinder-Runtime
+ App
  Copyright (c) 2016, Simon Geilfus, All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that
@@ -30,16 +31,16 @@
 #include <cereal/archives/binary.hpp>
 #endif
 
-#ifndef DISABLE_RUNTIME_COMPILED_APP
+#if ! defined( DISABLE_RUNTIME_COMPILATION ) && ! defined( DISABLE_RUNTIME_COMPILED_APP )
 
 #include "cinder/Exception.h"
 #include "cinder/Filesystem.h"
 #include "cinder/System.h"
 #include "cinder/Utilities.h"
 #include "cling/Interpreter/Interpreter.h"
-#include "Watchdog.h"
+#include "SourceWatchdog.h"
 
-class runtime_app;
+class RuntimeApp;
 
 class RuntimeAppWrapper/* : public ci::app::AppBase*/ {
 public:
@@ -186,13 +187,13 @@ public:
 	virtual void load( cereal::BinaryInputArchive &ar ) {}
 #endif
 	
-	runtime_app* mParent;
+	RuntimeApp* mParent;
 };
 
-class runtime_app : public ci::app::App {
+class RuntimeApp : public ci::app::App {
 public:
-	runtime_app(){}
-	virtual ~runtime_app(){}
+	RuntimeApp(){}
+	virtual ~RuntimeApp(){}
 	
 	//! \cond
 	// Called during application instanciation via CINDER_APP_MAC macro
@@ -237,10 +238,10 @@ public:
 	//! Override to cleanup any resources before app destruction
 	virtual void	cleanup() { if( mRuntimeImpl ) mRuntimeImpl->cleanup(); }
 
-protected:	
+protected:
+
 	std::shared_ptr<RuntimeAppWrapper> mRuntimeImpl;
 };
-
 
 ci::app::WindowRef	RuntimeAppWrapper::createWindow( const ci::app::Window::Format &format )
 {
@@ -434,7 +435,7 @@ ci::app::RendererRef RuntimeAppWrapper::getDefaultRenderer() const
 }
 
 template<typename AppT>
-void runtime_app::main( const ci::app::RendererRef &defaultRenderer, const char *title, int argc, char * const argv[], const std::string &file, const SettingsFn &settingsFn, const std::function<void(cling::Interpreter *)> &runtimeSettingsFn )
+void RuntimeApp::main( const ci::app::RendererRef &defaultRenderer, const char *title, int argc, char * const argv[], const std::string &file, const SettingsFn &settingsFn, const std::function<void(cling::Interpreter *)> &runtimeSettingsFn )
 {
 	// init interpreter
 	// initialize cling interpreter
@@ -472,7 +473,7 @@ void runtime_app::main( const ci::app::RendererRef &defaultRenderer, const char 
 		if( line.find( "CINDER_RUNTIME_APP" ) != std::string::npos ) {
 			break;
 		}
-		//if( line.find( "#include \"runtime_app.h\"" ) == std::string::npos ) {
+		//if( line.find( "#include \"RuntimeApp.h\"" ) == std::string::npos ) {
 		if( line.find( "#include" ) == std::string::npos ) {
 			originalCode += line + " \n";
 		}
@@ -514,17 +515,17 @@ void runtime_app::main( const ci::app::RendererRef &defaultRenderer, const char 
 	if( settings.getShouldQuit() )
 		return;
 	
-	runtime_app *runtimeApp = new runtime_app();
+	RuntimeApp *runtimeApp = new RuntimeApp();
 	
 	// watch cpp
 	std::string className = ci::System::demangleTypeName( typeid( AppT ).name() );
-	wd::watch( path, [className,interpreter,runtimeApp]( const ci::fs::path &p ) {
-		//std::cout << "Loading " << p << std::endl;
+	SourceWatchdog::watch( path, [path,className,interpreter,runtimeApp]() {
+		std::cout << "Loading " << path << std::endl;
 		
 		// copy the file content to a string
 		std::string code;
 		
-		std::ifstream infile( p.c_str() );
+		std::ifstream infile( path.c_str() );
 		std::string line;
 		std::vector<std::string> includes;
 		while( std::getline( infile, line ) ) {
@@ -615,7 +616,7 @@ void runtime_app::main( const ci::app::RendererRef &defaultRenderer, const char 
 int main( int argc, char* argv[] )											\
 {																					\
 cinder::app::RendererRef renderer( new RENDERER );								\
-runtime_app::main<APP>( renderer, #APP, argc, argv, __FILE__, ##__VA_ARGS__ );	\
+RuntimeApp::main<APP>( renderer, #APP, argc, argv, __FILE__, ##__VA_ARGS__ );	\
 return 0;																		\
 }
 
