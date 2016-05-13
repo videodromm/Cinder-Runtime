@@ -1,5 +1,6 @@
 #folder created by install.sh
 lib/
+!samples/RuntimeAppSettings/blocks/ImGui/lib/
 src/
 
 # Compiled Object files
