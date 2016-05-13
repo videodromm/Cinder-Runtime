@@ -1,14 +1,15 @@
 Cinder-Runtime
 ===================
 
+**! Requires [Watchdog](https://github.com/simongeilfus/Watchdog) cinderblock !**   
 
 ####Introduction
 
-This block explores what is currently possible to do using Cling, Llvm and Clang.  
+This block explores what is currently possible to do using Cling, Llvm and Clang. **Think of this as a proof-of-concept and a first pass at understanding how to use clang directly.** Ideally Cling will be removed at some point for a better solution bu the block is already usable in its current form.
 
-**This is highly experimental. Think of this as a proof-of-concept and a first pass at understanding how to use clang directly.**   
-
-The main code of this block is the ```runtime_ptr``` template. The class wraps a ```shared_ptr``` and pretty much works the same way at the exception that the wrapped class will be reloaded at runtime each time the source file is saved. This can be used to prototype code without having to wait between each compilation. It comes with its own limitations and is certainly not as complete as similar projects but clearly less invasive and much easier to use. There's also a ```runtime_function``` that mimics the ```std::function``` class and a ```CINDER_RUNTIME_APP``` macro to replace the usual ```CINDER_APP``` and have your whole app being re-compiled at runtime. 
+The block consists of two main files. The first file contains the ```runtime_ptr``` template. This class wraps a ```shared_ptr``` and pretty much works the same way at the exception that the wrapped class will be reloaded at runtime each time the source file is saved. This can be used to prototype code without having to wait between each compilation. It comes with its own limitations and is certainly not as complete as similar projects but clearly less invasive and much easier to use.  
+  
+The second part of this block is the ```CINDER_RUNTIME_APP``` macro that replaces the usual ```CINDER_APP``` and have your whole app being re-compiled at runtime. 
 
 *Make sure to read the ["How it works"](#how-it-works) section to understand what you can and can't do.*
 
@@ -30,7 +31,10 @@ Declare your instance the same way you would with a std::shared_ptr:
 runtime_ptr<MyClass> mPtr;
 ```
 
-You need to register the class by using this before trying to instantiate it (if you don't you'll get a MissingInterpreterException):
+By default the library will try to automatically locate the source file of your class. If your class is in a file with a different name or if you want to specify a filename manually, use ```runtime_class<T>::initialize```. If the library fail to locate the source files and if you don't register the class manually you'll get a MissingInterpreterException :
+
+Here's how to do it manually:
+
 ```c++
 #ifndef DISABLE_RUNTIME_COMPILED_PTR
 runtime_class<MyClass>::initialize( "MyClass.cpp" )
