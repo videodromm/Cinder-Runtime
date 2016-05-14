@@ -5,7 +5,7 @@ Cinder-Runtime
 
 ####Introduction
 
-This block explores what is currently possible to do using Cling, Llvm and Clang. **Think of this as a proof-of-concept and a first pass at understanding how to use clang directly.** Ideally Cling will be removed at some point for a better solution bu the block is already usable in its current form.
+This block explores what is currently possible to do using Cling, Llvm and Clang. **Think of this as a proof-of-concept and a first pass at understanding how to use clang directly.** Ideally Cling will be removed at some point for a better solution but the block is already usable in its current form.
 
 The block consists of two main files. The first file contains the ```runtime_ptr``` template. This class wraps a ```shared_ptr``` and pretty much works the same way at the exception that the wrapped class will be reloaded at runtime each time the source file is saved. This can be used to prototype code without having to wait between each compilation. It comes with its own limitations and is certainly not as complete as similar projects but clearly less invasive and much easier to use.  
   
@@ -163,10 +163,21 @@ Kind of ugly but it does allow fast reloading of your class while keeping an ext
 ####OSX Build Instructions
 
 ###### Cloning the repository
-Clone this repository in the blocks folder of Cinder.
+Clone both this repository and watchdog repository into Cinder's blocks folder:
+```shell
+cd cinder/blocks
+git clone https://github.com/simongeilfus/Watchdog.git
+git clone https://github.com/simongeilfus/Cinder-Runtime.git
+```
 
 ###### Install Libraries
-Start by running the ```install.sh``` to grab and build Cling, Llvm and Clang. There's a ```cleanup.sh``` if you want to save some disk space, but it will get rid of the binaries as well, so you better do that manually.
+Then run the ```install.sh``` script to grab and build Cling, Llvm and Clang. This will generate the necessary include and library files in the lib folder.
+```shell
+cd cinder-runtime
+#you might want to try a xcode-select --install before starting
+#the install script, just to be sure you have everything installed
+sh install.sh
+```
 
 ###### Build Cinder as a dynamic library
 - Right click cinder target / duplicate
@@ -182,7 +193,7 @@ Start by running the ```install.sh``` to grab and build Cling, Llvm and Clang. T
 Or see PR/Discussion [here](https://github.com/cinder/Cinder/pull/1355).
 
 ###### Potential errors about ```unistd.h``` or ```XcodeDefault.xctoolchain```
-If you run into that kind of errors you might want to try to update your command line dev. tools by running a ```xcode-select —install``` in terminal. If that doesn't work, try to update xcode. Once you have that solved you can remove the folders created by the install script and restart it.
+If you run into that kind of errors you might want to try to update your command line dev. tools by running a ```xcode-select -—install``` in terminal. If that doesn't work, try to update xcode. Once you have that solved you can remove the folders created by the install script and restart it.
 
 
 ####OSX New Project Guide
