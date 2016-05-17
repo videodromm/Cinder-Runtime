@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -21,11 +22,14 @@
     <Filter Include="Blocks\Watchdog\include">
       <UniqueIdentifier>{ED09BC59-023A-430D-8785-8ADCB51B9CF9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Blocks\Cinder-Runtime">
+      <UniqueIdentifier>{fafe2560-eac9-4ecc-a196-9e03b82c0a14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\Cinder-Runtime\include">
+      <UniqueIdentifier>{20858ef3-0a67-49ca-b092-ad33df1c965c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\RuntimeAppApp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\RuntimeAppApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -35,10 +39,16 @@
     <ClInclude Include="..\..\..\..\Watchdog\include\Watchdog.h">
       <Filter>Blocks\Watchdog\include</Filter>
     </ClInclude>
+    <ClCompile Include="..\src\RuntimeApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\runtime_app.h">
+      <Filter>Blocks\Cinder-Runtime\include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
